@@ -1,0 +1,52 @@
+:root {
+  --font-family: Helvetica;
+  --font-size: 14px;
+  --padding-s: .5rem;
+  --padding-m: 1rem;
+  --padding-l: 2rem;
+  --margin-s: .5rem;
+  --margin-m: 1rem;
+  --margin-l: 2rem;
+  --border-radius-s: .3rem;
+  --border-radius-l: 1rem;
+}
+
+* {
+  box-sizing: border-box;
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  padding: 0;
+  margin: 0;
+}
+
+html,
+body {
+  font-family: var(--font-family);
+  font-size: var(--font-size);
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+body {
+  background-color: #000;
+  color: #FFF;
+}
+
+h1 {
+  font-size: 2rem;
+}
+
+h2 {
+  font-size: 1.6rem;
+}
+
+h3 {
+  font-size: 1.2rem;
+}
+
+@media (width <= 750px) {
+  :root {
+    --font-size: 12px;
+  }
+}
