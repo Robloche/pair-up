@@ -1,3 +1,21 @@
-.scoreWrapper {
+.attempts {
+    align-items: center;
+    background: #FFF;
+    border-radius: var(--border-radius-l);
+    color: #000;
+    display: flex;
+    font-size: 4rem;
+    font-weight: bold;
+    justify-content: center;
+    min-width: 92px;
+    padding: var(--padding-m);
+    position: relative;
+}
 
+.missed {
+    bottom: 2px;
+    color: #F00;
+    font-size: 1.2rem;
+    position: absolute;
+    right: 6px;
 }

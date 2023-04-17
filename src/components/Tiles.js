@@ -1,12 +1,15 @@
-import styles from './Tiles.module.css';
+import React from "react";
+import Tile from "@/components/Tile";
+import styles from "./Tiles.module.css";
 
-const Tiles = () => {
-
+const Tiles = ({ showTile, tiles }) => {
   return (
     <div className={styles.tilesWrapper}>
-      tiles
+      {tiles.map((tile) => (
+        <Tile key={tile.index} showTile={showTile} tile={tile} />
+      ))}
     </div>
-  )
+  );
 };
 
 export default Tiles;

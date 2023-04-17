@@ -1,3 +1,8 @@
 .tilesWrapper {
-
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    grid-gap: 10px;
+    width: 530px;
 }

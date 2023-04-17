@@ -1,12 +1,12 @@
-import styles from './Score.module.css';
+import styles from "./Score.module.css";
 
-const Score = () => {
-
+const Score = ({ attempts, missed }) => {
   return (
-    <div className={styles.scoreWrapper}>
-      score
+    <div className={styles.attempts}>
+      {attempts}
+      <div className={styles.missed}>{missed}</div>
     </div>
-  )
+  );
 };
 
 export default Score;

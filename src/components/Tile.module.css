@@ -1,3 +1,34 @@
 .tileWrapper {
+    --size: 80px;
 
+    align-items: center;
+    border-radius: var(--border-radius-l);
+    cursor: pointer;
+    display: flex;
+    font-size: 2rem;
+    height: var(--size);
+    justify-content: center;
+    transform: rotateY(0);
+    transition: transform 200ms ease-out;
+    user-select: none;
+    width: var(--size);
+}
+
+.tileWrapper.hidden {
+    background-color: var(--transparent-40);
+    color: #000;
+}
+
+.tileWrapper.visible {
+    background-color: var(--transparent-10);
+    transform: rotateY(180deg);
+}
+
+.tileWrapper.found {
+    background-color: var(--transparent-10);
+    cursor: default;
+}
+
+.tileWrapper.hidden:hover {
+    background-color: var(--transparent-50);
 }
