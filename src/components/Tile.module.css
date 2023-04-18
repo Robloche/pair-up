@@ -13,36 +13,63 @@
 }
 
 .tileWrapper {
-    align-items: center;
+    background-color: transparent;
+    border: 4px solid transparent;
     border-radius: var(--border-radius-l);
     cursor: pointer;
-    display: flex;
     font-size: 2rem;
     height: var(--tile-size);
-    justify-content: center;
+    outline: 0;
+    perspective: 400px;
     transform: rotateY(0);
     transition: transform 200ms ease-out;
     user-select: none;
     width: var(--tile-size);
 }
 
-.tileWrapper.hidden {
-    background-color: var(--transparent-40);
-    color: #000;
+.tileWrapper:focus {
+    border: 4px solid #FFF;
 }
 
-.tileWrapper.visible {
-    background-color: var(--transparent-10);
+.tileWrapper.visible .innerTile {
     transform: rotateY(180deg);
 }
 
-.tileWrapper.found {
-    animation: pulse 300ms ease-in-out;
-    background-color: var(--transparent-10);
+.tileWrapper.found .innerTile {
+    animation: pulse 500ms ease-in-out;
     cursor: default;
     transform: rotateY(180deg);
 }
 
-.tileWrapper.hidden:hover {
+.tileWrapper.hidden:hover .back {
     background-color: var(--transparent-50);
+}
+
+.innerTile {
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 500ms;
+    width: 100%;
+}
+
+.front, .back {
+    align-items: center;
+    backface-visibility: hidden;
+    border-radius: var(--border-radius-l);
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    position: absolute;
+    width: 100%;
+}
+
+.back {
+    background-color: var(--transparent-40);
+    color: #000;
+}
+
+.front {
+    background-color: var(--transparent-10);
+    transform: rotateY(180deg);
 }

@@ -15,7 +15,7 @@ const Game = () => {
   const [attempts, setAttempts] = React.useState(0);
   const [tiles, setTiles] = React.useState([]);
 
-  useArrowNavigation(gridSize);
+  useArrowNavigation(gridSize, true);
 
   React.useEffect(() => {
     setTiles(initializeTiles(gridSize * gridSize));

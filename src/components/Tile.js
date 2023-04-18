@@ -15,10 +15,14 @@ const Tile = ({ showTile, tile }) => {
   return (
     <button
       className={`${styles.tileWrapper} ${styles[tile.state]}`}
+      data-tile={true}
       id={tile.index.toString()}
       onClick={handleOnClick}
     >
-      {tile.state === State.Hidden ? "" : tile.char}
+      <div className={styles.innerTile}>
+        <div className={styles.front}>{tile.char}</div>
+        <div className={styles.back} />
+      </div>
     </button>
   );
 };
