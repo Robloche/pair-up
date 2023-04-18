@@ -8,11 +8,14 @@ import Score from "@/components/Score";
 import { State } from "@/helpers/types";
 import Tiles from "@/components/Tiles";
 import styles from "./Game.module.css";
+import useArrowNavigation from "@/hooks/use-arrow-navigation";
 
 const Game = () => {
   const [gridSize, setGridSize] = React.useState(4);
   const [attempts, setAttempts] = React.useState(0);
   const [tiles, setTiles] = React.useState([]);
+
+  useArrowNavigation(gridSize);
 
   React.useEffect(() => {
     setTiles(initializeTiles(gridSize * gridSize));
