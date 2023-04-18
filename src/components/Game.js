@@ -10,12 +10,14 @@ import Tiles from "@/components/Tiles";
 import styles from "./Game.module.css";
 
 const Game = () => {
+  const [gridSize, setGridSize] = React.useState(4);
   const [attempts, setAttempts] = React.useState(0);
   const [tiles, setTiles] = React.useState([]);
 
   React.useEffect(() => {
-    setTiles(initializeTiles(36));
-  }, []);
+    setTiles(initializeTiles(gridSize * gridSize));
+    document.querySelector(":root").style.setProperty("--grid-size", gridSize);
+  }, [gridSize]);
 
   const hideTiles = React.useCallback(() => {
     const newTiles = tiles.map((t) => ({

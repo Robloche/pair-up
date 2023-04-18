@@ -3,6 +3,6 @@
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    grid-gap: 10px;
-    width: 530px;
+    grid-gap: var(--tile-margin);
+    width: calc(var(--grid-size) * (var(--tile-size) + var(--tile-margin)) - var(--tile-margin));
 }
