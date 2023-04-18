@@ -148,4 +148,27 @@ const getVisibleTiles = (tiles) => getTilesByState(tiles, State.Visible);
 
 const getFoundTiles = (tiles) => getTilesByState(tiles, State.Found);
 
-export { getFoundTiles, getVisibleTiles, initializeTiles, shuffleArray };
+const getTileUpward = (activeElt, gridSize) => {
+  let elt = activeElt;
+  for (let i = 0; i < gridSize; ++i) {
+    elt = elt.previousElementSibling;
+  }
+  return elt;
+};
+
+const getTileDownward = (activeElt, gridSize) => {
+  let elt = activeElt;
+  for (let i = 0; i < gridSize; ++i) {
+    elt = elt.nextElementSibling;
+  }
+  return elt;
+};
+
+export {
+  getFoundTiles,
+  getTileUpward,
+  getTileDownward,
+  getVisibleTiles,
+  initializeTiles,
+  shuffleArray,
+};

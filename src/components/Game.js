@@ -58,7 +58,7 @@ const Game = () => {
   return (
     <div className={styles.gameWrapper}>
       <Score attempts={attempts} missed={missed} />
-      <Tiles showTile={showTile} tiles={tiles} />
+      <Tiles gridSize={gridSize} showTile={showTile} tiles={tiles} />
     </div>
   );
 };

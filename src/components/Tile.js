@@ -1,3 +1,4 @@
+import React from "react";
 import { State } from "@/helpers/types";
 import styles from "./Tile.module.css";
 
@@ -12,12 +13,13 @@ const Tile = ({ showTile, tile }) => {
   };
 
   return (
-    <div
+    <button
       className={`${styles.tileWrapper} ${styles[tile.state]}`}
+      id={tile.index.toString()}
       onClick={handleOnClick}
     >
       {tile.state === State.Hidden ? "" : tile.char}
-    </div>
+    </button>
   );
 };
 
