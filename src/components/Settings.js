@@ -25,11 +25,11 @@ const Settings = ({ onCloseSettings, onSaveSettings, settings }) => {
   }, []);
 
   const rowCountOnChange = React.useCallback((event) => {
-    setRowCount(event.target.value);
+    setRowCount(Number(event.target.value));
   }, []);
 
   const columnCountOnChange = React.useCallback((event) => {
-    setColumnCount(event.target.value);
+    setColumnCount(Number(event.target.value));
   }, []);
 
   const saveOnClick = React.useCallback(
@@ -38,6 +38,9 @@ const Settings = ({ onCloseSettings, onSaveSettings, settings }) => {
     },
     [columnCount, cycle, onSaveSettings, rowCount, showDiscovered]
   );
+
+  const isWarningDisplayed =
+    rowCount !== settings.rowCount || columnCount !== settings.columnCount;
 
   return (
     <FocusLock>
@@ -94,6 +97,11 @@ const Settings = ({ onCloseSettings, onSaveSettings, settings }) => {
           >
             Save & Close
           </button>
+          {isWarningDisplayed && (
+            <div className={styles.warning}>
+              (Changing rows or columns will start a new game.)
+            </div>
+          )}
           <button className={styles.closeBtn} onClick={onCloseSettings}>
             <Image alt="Close icon" src={closeIcon} />
           </button>
