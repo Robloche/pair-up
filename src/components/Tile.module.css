@@ -25,6 +25,7 @@
     width: var(--tile-size);
 }
 
+.tileWrapper:disabled,
 .tileWrapper.found {
     cursor: default;
 }
@@ -75,6 +76,6 @@
     cursor: default;
 }
 
-.tileWrapper.hidden:hover .back {
+.tileWrapper.hidden:not(:disabled):hover .back {
     background-color: var(--transparent-50);
 }
