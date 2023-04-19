@@ -1,14 +1,14 @@
 @keyframes pulse {
     0% {
-        transform: scale(1);
+        transform: rotateY(180deg) scale(1);
     }
 
     50% {
-        transform: scale(1.3);
+        transform: rotateY(180deg) scale(1.6);
     }
 
     100% {
-        transform: scale(1);
+        transform: rotateY(180deg) scale(1);
     }
 }
 
@@ -21,31 +21,12 @@
     height: var(--tile-size);
     outline: 0;
     perspective: 400px;
-    transform: rotateY(0);
-    transition: transform 200ms ease-out;
     user-select: none;
     width: var(--tile-size);
 }
 
-.tileWrapper:focus {
-    border: 4px solid #FFF;
-}
-
-.tileWrapper.visible .innerTile {
-    transform: rotateY(180deg);
-}
-
-.tileWrapper.found .innerTile {
-    animation: pulse 500ms ease-in-out;
-    cursor: default;
-    transform: rotateY(180deg);
-}
-
-.tileWrapper.hidden:hover .back {
-    background-color: var(--transparent-50);
-}
-
 .innerTile {
+    border-radius: var(--border-radius-m);
     height: 100%;
     position: relative;
     transform-style: preserve-3d;
@@ -56,7 +37,7 @@
 .front, .back {
     align-items: center;
     backface-visibility: hidden;
-    border-radius: var(--border-radius-l);
+    border-radius: var(--border-radius-m);
     display: flex;
     height: 100%;
     justify-content: center;
@@ -66,10 +47,30 @@
 
 .back {
     background-color: var(--transparent-40);
-    color: #000;
 }
 
 .front {
     background-color: var(--transparent-10);
     transform: rotateY(180deg);
+}
+
+/* Button focus when navigating with arrow keys */
+.tileWrapper:focus-visible {
+    border: 4px solid #FFF;
+}
+
+/* Showing emoji */
+.tileWrapper.visible .innerTile,
+.tileWrapper.found .innerTile {
+    transform: rotateY(180deg);
+}
+
+/* Pair found animation */
+.tileWrapper.found .front {
+    animation: pulse 600ms cubic-bezier(.4, .2, .3, .4) 400ms;
+    cursor: default;
+}
+
+.tileWrapper.hidden:hover .back {
+    background-color: var(--transparent-50);
 }
