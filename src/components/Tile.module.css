@@ -25,6 +25,10 @@
     width: var(--tile-size);
 }
 
+.tileWrapper.found {
+    cursor: default;
+}
+
 .innerTile {
     border-radius: var(--border-radius-m);
     height: 100%;
