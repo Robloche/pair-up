@@ -12,7 +12,7 @@ import styles from "./Game.module.css";
 import useArrowNavigation from "@/hooks/use-arrow-navigation";
 
 const Game = () => {
-  const [rowCount, setRowCount] = React.useState(4);
+  const [rowCount, setRowCount] = React.useState(3);
   const [columnCount, setColumnCount] = React.useState(4);
   const [attempts, setAttempts] = React.useState(0);
   const [tiles, setTiles] = React.useState([]);
@@ -71,7 +71,7 @@ const Game = () => {
 
   const missed = attempts - getFoundTiles(tiles).length / 2;
 
-  const isEnd = getFoundTiles(tiles).length === rowCount * rowCount;
+  const isEnd = getFoundTiles(tiles).length === rowCount * columnCount;
 
   return (
     <>
