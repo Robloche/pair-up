@@ -19,3 +19,8 @@
     position: absolute;
     right: 6px;
 }
+
+.missed span {
+    font-size: .7rem;
+    margin-right: .2rem;
+}

@@ -4,7 +4,10 @@ const Score = ({ attempts, missed }) => {
   return (
     <div className={styles.attempts}>
       {attempts}
-      <div className={styles.missed}>{missed}</div>
+      <div className={styles.missed}>
+        <span>MISS:</span>
+        {missed}
+      </div>
     </div>
   );
 };

@@ -3,6 +3,7 @@ import {
   getVisibleTiles,
   initializeTiles,
 } from "@/helpers/tiles";
+import Banner from "@/components/Banner";
 import React from "react";
 import Score from "@/components/Score";
 import { State } from "@/helpers/types";
@@ -11,16 +12,28 @@ import styles from "./Game.module.css";
 import useArrowNavigation from "@/hooks/use-arrow-navigation";
 
 const Game = () => {
-  const [gridSize, setGridSize] = React.useState(4);
+  const [rowCount, setRowCount] = React.useState(4);
+  const [columnCount, setColumnCount] = React.useState(4);
   const [attempts, setAttempts] = React.useState(0);
   const [tiles, setTiles] = React.useState([]);
 
-  useArrowNavigation(gridSize, true);
+  useArrowNavigation(rowCount, columnCount);
+
+  const reset = React.useCallback(() => {
+    setTiles(initializeTiles(rowCount, columnCount));
+    setAttempts(0);
+  }, [columnCount, rowCount]);
 
   React.useEffect(() => {
-    setTiles(initializeTiles(gridSize * gridSize));
-    document.querySelector(":root").style.setProperty("--grid-size", gridSize);
-  }, [gridSize]);
+    const rootElt = document.querySelector(":root");
+    rootElt.style.setProperty("--grid-rows", rowCount);
+    rootElt.style.setProperty("--grid-columns", columnCount);
+    reset();
+  }, [columnCount, rowCount]);
+
+  const handleOnReset = () => {
+    reset();
+  };
 
   const hideTiles = React.useCallback(() => {
     const newTiles = tiles.map((t) => ({
@@ -58,11 +71,23 @@ const Game = () => {
 
   const missed = attempts - getFoundTiles(tiles).length / 2;
 
+  const isEnd = getFoundTiles(tiles).length === rowCount * rowCount;
+
   return (
-    <div className={styles.gameWrapper}>
-      <Score attempts={attempts} missed={missed} />
-      <Tiles gridSize={gridSize} showTile={showTile} tiles={tiles} />
-    </div>
+    <>
+      {isEnd && (
+        <Banner attempts={attempts} missed={missed} onReset={handleOnReset} />
+      )}
+      <div className={styles.gameWrapper}>
+        <Score attempts={attempts} missed={missed} />
+        <Tiles
+          columnCount={columnCount}
+          rowCount={rowCount}
+          showTile={showTile}
+          tiles={tiles}
+        />
+      </div>
+    </>
   );
 };
 

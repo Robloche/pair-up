@@ -4,7 +4,6 @@ import styles from "./Tile.module.css";
 
 const Tile = ({ showTile, tile }) => {
   const handleOnClick = () => {
-    //if (selection.length === 2 ||)
     if (tile.state === State.Visible || tile.state === State.Found) {
       return;
     }

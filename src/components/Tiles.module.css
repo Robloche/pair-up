@@ -3,6 +3,13 @@
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    grid-gap: var(--tile-margin);
-    width: calc(var(--grid-size) * (var(--tile-size) + var(--tile-margin)) - var(--tile-margin));
+    grid-gap: var(--grid-gap);
+    position: relative;
+    width: calc(var(--grid-columns) * (var(--tile-size) + var(--grid-gap)) - var(--grid-gap));
+}
+
+.lockMask {
+    height: 100%;
+    position: absolute;
+    width: 100%;
 }

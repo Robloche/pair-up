@@ -13,7 +13,15 @@ const shuffleArray = (array) => {
   }
 };
 
-const initializeTiles = (n) => {
+const initializeTiles = (rowCount, columnCount) => {
+  const tileCount = rowCount * columnCount;
+
+  if (tileCount % 2 > 0) {
+    throw Error(
+      `Grid dimension should lead to an even number of tiles but got ${rowCount}x${columnCount}`
+    );
+  }
+
   const TILES = [
     "😀",
     "😃",
@@ -130,10 +138,19 @@ const initializeTiles = (n) => {
     "😿",
     "😾",
   ];
+
+  // Shuffle available tiles
   shuffleArray(TILES);
-  const tiles = TILES.slice(0, n / 2);
+
+  // Take first (tileCount / 2) ones
+  const tiles = TILES.slice(0, tileCount / 2);
+
+  // Add same tiles to create pairs
   tiles.push(...tiles);
+
+  // Shuffle chosen tiles
   shuffleArray(tiles);
+
   return tiles.map((emoji, i) => ({
     index: i,
     char: emoji,

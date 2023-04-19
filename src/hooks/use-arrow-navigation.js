@@ -16,23 +16,23 @@ const getTileRightward = (activeElt, count = 1) => {
   return elt;
 };
 
-const getTileUpward = (activeElt, gridSize, count = 1) => {
+const getTileUpward = (activeElt, columnCount, count = 1) => {
   let elt = activeElt;
-  for (let i = 0; i < gridSize; ++i) {
+  for (let i = 0; i < columnCount; ++i) {
     elt = getTileLeftward(elt, count);
   }
   return elt;
 };
 
-const getTileDownward = (activeElt, gridSize, count = 1) => {
+const getTileDownward = (activeElt, columnCount, count = 1) => {
   let elt = activeElt;
-  for (let i = 0; i < gridSize; ++i) {
+  for (let i = 0; i < columnCount; ++i) {
     elt = getTileRightward(elt, count);
   }
   return elt;
 };
 
-const useArrowNavigation = (gridSize, cycle) => {
+const useArrowNavigation = (rowCount, columnCount, cycle = true) => {
   const handleOnKeydown = React.useCallback(
     (event) => {
       const { code } = event;
@@ -43,6 +43,7 @@ const useArrowNavigation = (gridSize, cycle) => {
 
       const activeElt = document.activeElement;
       if (!activeElt || !activeElt.getAttribute("data-tile")) {
+        // Focused element is not a tile
         return;
       }
 
@@ -52,41 +53,39 @@ const useArrowNavigation = (gridSize, cycle) => {
 
       if (code === "ArrowUp") {
         // Up
-        if (activeId >= gridSize) {
-          getTileUpward(activeElt, gridSize).focus();
+        if (activeId >= columnCount) {
+          getTileUpward(activeElt, columnCount).focus();
         } else if (cycle) {
-          // Go to the bottom > gridSize * gridSize - gridSize + id
-          getTileDownward(activeElt, gridSize, gridSize - 1).focus();
+          // Cycle to the bottom
+          getTileDownward(activeElt, columnCount, rowCount - 1).focus();
         }
       } else if (code === "ArrowDown") {
         // Down
-        if (activeId < gridSize * gridSize - gridSize) {
-          getTileDownward(activeElt, gridSize).focus();
+        if (activeId < rowCount * columnCount - columnCount) {
+          getTileDownward(activeElt, columnCount).focus();
         } else if (cycle) {
-          // Go to the top > id % gridSize
-          getTileUpward(activeElt, gridSize, gridSize - 1).focus();
+          // Cycle to the top
+          getTileUpward(activeElt, columnCount, rowCount - 1).focus();
         }
       } else if (code === "ArrowLeft") {
         // Left
-        if (activeId % gridSize > 0) {
+        if (activeId % rowCount > 0) {
           getTileLeftward(activeElt).focus();
-          //activeElt.previousElementSibling.focus();
         } else if (cycle) {
-          // Go to the right > id + gridSize - 1
-          getTileRightward(activeElt, gridSize - 1).focus();
+          // Cycle to the right
+          getTileRightward(activeElt, columnCount - 1).focus();
         }
       } else {
         // Right
-        if ((activeId + 1) % gridSize > 0) {
+        if ((activeId + 1) % rowCount > 0) {
           getTileRightward(activeElt).focus();
-          //activeElt.nextElementSibling.focus();
         } else if (cycle) {
-          // Go to the left > id - gridSize + 1
-          getTileLeftward(activeElt, gridSize - 1).focus();
+          // Cycle to the left
+          getTileLeftward(activeElt, columnCount - 1).focus();
         }
       }
     },
-    [cycle, gridSize]
+    [columnCount, cycle, rowCount]
   );
 
   React.useEffect(() => {

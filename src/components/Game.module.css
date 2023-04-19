@@ -3,4 +3,5 @@
     display: flex;
     flex-direction: column;
     row-gap: var(--padding-l);
+    padding: 6rem;
 }

@@ -1,0 +1,32 @@
+.bannerWrapper {
+    align-items: center;
+    background-color: #228B22;
+    border-radius: 0 0 var(--border-radius-s) var(--border-radius-s);
+    display: flex;
+    flex-direction: column;
+    font-size: 1.4rem;
+    padding: var(--padding-l);
+    position: absolute;
+    top: 0;
+    z-index: 100;
+}
+
+.bannerWrapper .number {
+    color: var(--transparent-50);
+    font-size: 2.6rem;
+}
+
+.bannerWrapper button {
+    background-color: #FFF;
+    border: 0;
+    border-radius: var(--border-radius-s);
+    color: #000;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: var(--margin-l);
+    padding: var(--padding-m);
+}
+
+.bannerWrapper button:hover {
+    background-color: var(--transparent-80);
+}
