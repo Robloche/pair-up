@@ -69,7 +69,7 @@ const useArrowNavigation = (rowCount, columnCount, cycle = true) => {
         }
       } else if (code === "ArrowLeft") {
         // Left
-        if (activeId % rowCount > 0) {
+        if (activeId % columnCount > 0) {
           getTileLeftward(activeElt).focus();
         } else if (cycle) {
           // Cycle to the right
@@ -77,7 +77,7 @@ const useArrowNavigation = (rowCount, columnCount, cycle = true) => {
         }
       } else {
         // Right
-        if ((activeId + 1) % rowCount > 0) {
+        if ((activeId + 1) % columnCount > 0) {
           getTileRightward(activeElt).focus();
         } else if (cycle) {
           // Cycle to the left

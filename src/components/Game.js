@@ -13,7 +13,7 @@ import useArrowNavigation from "@/hooks/use-arrow-navigation";
 
 const Game = () => {
   const [rowCount, setRowCount] = React.useState(4);
-  const [columnCount, setColumnCount] = React.useState(4);
+  const [columnCount, setColumnCount] = React.useState(6);
   const [attempts, setAttempts] = React.useState(0);
   const [tiles, setTiles] = React.useState([]);
 
