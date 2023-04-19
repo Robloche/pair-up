@@ -154,6 +154,7 @@ const initializeTiles = (rowCount, columnCount) => {
   return tiles.map((emoji, i) => ({
     index: i,
     char: emoji,
+    discovered: false,
     state: State.Hidden,
   }));
 };

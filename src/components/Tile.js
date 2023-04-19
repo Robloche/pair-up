@@ -2,7 +2,7 @@ import React from "react";
 import { State } from "@/helpers/types";
 import styles from "./Tile.module.css";
 
-const Tile = ({ showTile, tile }) => {
+const Tile = ({ showDiscovered, showTile, tile }) => {
   const handleOnClick = () => {
     if (tile.state === State.Visible || tile.state === State.Found) {
       return;
@@ -13,7 +13,9 @@ const Tile = ({ showTile, tile }) => {
 
   return (
     <button
-      className={`${styles.tileWrapper} ${styles[tile.state]}`}
+      className={`${styles.tileWrapper} ${styles[tile.state]} ${
+        showDiscovered && tile.discovered ? styles.discovered : ""
+      }`}
       data-tile={true}
       id={tile.index.toString()}
       onClick={handleOnClick}

@@ -59,6 +59,11 @@
     transform: rotateY(180deg);
 }
 
+/* Tile showed at least once */
+.tileWrapper.discovered {
+    border: 4px dashed var(--transparent-20);
+}
+
 /* Button focus when navigating with arrow keys */
 .tileWrapper:focus-visible {
     border: 4px solid #FFF;

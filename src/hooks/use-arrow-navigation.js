@@ -32,7 +32,7 @@ const getTileDownward = (activeElt, columnCount, count = 1) => {
   return elt;
 };
 
-const useArrowNavigation = (rowCount, columnCount, cycle = true) => {
+const useArrowNavigation = (rowCount, columnCount, cycle) => {
   const handleOnKeydown = React.useCallback(
     (event) => {
       const { code } = event;

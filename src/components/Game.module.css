@@ -2,6 +2,31 @@
     align-items: center;
     display: flex;
     flex-direction: column;
-    row-gap: var(--padding-l);
+    min-width: 26rem;
     padding: 6rem;
+    position: relative;
+    row-gap: var(--padding-l);
+}
+
+.settingsBtn {
+    border: 0;
+    background-color: var(--transparent-10);
+    border-radius: var(--border-radius-s);
+    cursor: pointer;
+    padding: var(--padding-s);
+    position: absolute;
+    right: 6rem;
+}
+
+.settingsBtn img {
+    transform: scale(.9);
+    transition: transform 200ms ease-in-out;
+}
+
+.settingsBtn:hover {
+    background-color: var(--transparent-20);
+}
+
+.settingsBtn:hover img {
+    transform: scale(1);
 }

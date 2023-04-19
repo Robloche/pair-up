@@ -9,7 +9,9 @@ const Banner = ({ attempts, missed, onReset }) => {
         <span className={styles.number}>{missed}</span> time
         {missed > 1 ? "s" : ""}.
       </p>
-      <button onClick={onReset}>Play Again</button>
+      <button className="action" onClick={onReset}>
+        Play Again
+      </button>
     </div>
   );
 };

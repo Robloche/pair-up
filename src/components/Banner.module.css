@@ -13,7 +13,7 @@
 .bannerWrapper {
     align-items: center;
     animation: slide-down 300ms cubic-bezier(.17, .04, .03, .94) 400ms backwards;
-    background-color: #228B22;
+    background-color: var(--accent-color);
     border-radius: 0 0 var(--border-radius-s) var(--border-radius-s);
     display: flex;
     flex-direction: column;
@@ -27,19 +27,4 @@
 .bannerWrapper .number {
     color: var(--transparent-50);
     font-size: 2.6rem;
-}
-
-.bannerWrapper button {
-    background-color: #FFF;
-    border: 0;
-    border-radius: var(--border-radius-s);
-    color: #000;
-    cursor: pointer;
-    font-weight: bold;
-    margin-top: var(--margin-l);
-    padding: var(--padding-m);
-}
-
-.bannerWrapper button:hover {
-    background-color: var(--transparent-80);
 }

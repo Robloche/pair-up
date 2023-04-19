@@ -1,15 +1,19 @@
 :root {
     --font-family: Helvetica;
     --font-size: 14px;
+    --padding-xs: .2rem;
     --padding-s: .5rem;
     --padding-m: 1rem;
     --padding-l: 2rem;
+    --padding-xl: 3rem;
     --margin-s: .5rem;
     --margin-m: 1rem;
     --margin-l: 2rem;
     --border-radius-s: .3rem;
     --border-radius-m: .5rem;
     --border-radius-l: 1rem;
+
+    --accent-color: #228B22;
 
     --transparent-10: rgb(255 255 255 / 10%);
     --transparent-20: rgb(255 255 255 / 20%);
@@ -34,6 +38,7 @@
 
 html,
 body {
+    accent-color: var(--accent-color);
     font-family: var(--font-family);
     font-size: var(--font-size);
     max-width: 100vw;
@@ -55,6 +60,27 @@ h2 {
 
 h3 {
     font-size: 1.2rem;
+}
+
+button {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+button.action {
+    background-color: #FFF;
+    border: 0;
+    border-radius: var(--border-radius-s);
+    color: #000;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: var(--margin-l);
+    padding: var(--padding-m);
+}
+
+button.action:hover {
+    background-color: var(--transparent-80);
 }
 
 @media (width <= 750px) {
