@@ -13,31 +13,43 @@ import useArrowNavigation from "@/hooks/use-arrow-navigation";
 
 const Game = () => {
   const [rowCount, setRowCount] = React.useState(4);
-  const [columnCount, setColumnCount] = React.useState(6);
+  const [columnCount, setColumnCount] = React.useState(4);
   const [attempts, setAttempts] = React.useState(0);
   const [tiles, setTiles] = React.useState([]);
 
   useArrowNavigation(rowCount, columnCount);
 
-  const reset = React.useCallback(() => {
-    setTiles(initializeTiles(rowCount, columnCount));
-    setAttempts(0);
-  }, [columnCount, rowCount]);
+  const hideTiles = (hideFound = false) => {
+    setTiles((tiles) =>
+      tiles.map((t) => ({
+        ...t,
+        state: hideFound || t.state === State.Visible ? State.Hidden : t.state,
+      }))
+    );
+  };
 
+  const reset = React.useCallback(
+    (waitForHiding = true) => {
+      const initTiles = () => setTiles(initializeTiles(rowCount, columnCount));
+
+      setAttempts(0);
+      hideTiles(true);
+      if (waitForHiding) {
+        setTimeout(initTiles, 500);
+      } else {
+        initTiles();
+      }
+    },
+    [columnCount, rowCount]
+  );
+
+  // Initialization
   React.useEffect(() => {
     const rootElt = document.querySelector(":root");
     rootElt.style.setProperty("--grid-rows", rowCount);
     rootElt.style.setProperty("--grid-columns", columnCount);
-    reset();
+    reset(false);
   }, [columnCount, reset, rowCount]);
-
-  const hideTiles = React.useCallback(() => {
-    const newTiles = tiles.map((t) => ({
-      ...t,
-      state: t.state === State.Visible ? State.Hidden : t.state,
-    }));
-    setTiles(newTiles);
-  }, [tiles]);
 
   const showTile = React.useCallback(
     (index) => {
@@ -50,19 +62,17 @@ const Game = () => {
         setAttempts(attempts + 1);
         if (visibleTiles[0].char === visibleTiles[1].char) {
           // Pair found
-          console.log("found");
           newTiles[visibleTiles[0].index].state = State.Found;
           newTiles[visibleTiles[1].index].state = State.Found;
         } else {
           // Missed
-          console.log("missed");
           setTimeout(hideTiles, 1_000);
         }
       }
 
       setTiles(newTiles);
     },
-    [attempts, hideTiles, tiles]
+    [attempts, tiles]
   );
 
   const missed = attempts - getFoundTiles(tiles).length / 2;
