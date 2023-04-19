@@ -12,8 +12,8 @@ import styles from "./Game.module.css";
 import useArrowNavigation from "@/hooks/use-arrow-navigation";
 
 const Game = () => {
-  const [rowCount, setRowCount] = React.useState(3);
-  const [columnCount, setColumnCount] = React.useState(4);
+  const [rowCount, setRowCount] = React.useState(4);
+  const [columnCount, setColumnCount] = React.useState(6);
   const [attempts, setAttempts] = React.useState(0);
   const [tiles, setTiles] = React.useState([]);
 
@@ -29,11 +29,7 @@ const Game = () => {
     rootElt.style.setProperty("--grid-rows", rowCount);
     rootElt.style.setProperty("--grid-columns", columnCount);
     reset();
-  }, [columnCount, rowCount]);
-
-  const handleOnReset = () => {
-    reset();
-  };
+  }, [columnCount, reset, rowCount]);
 
   const hideTiles = React.useCallback(() => {
     const newTiles = tiles.map((t) => ({
@@ -75,9 +71,7 @@ const Game = () => {
 
   return (
     <>
-      {isEnd && (
-        <Banner attempts={attempts} missed={missed} onReset={handleOnReset} />
-      )}
+      {isEnd && <Banner attempts={attempts} missed={missed} onReset={reset} />}
       <div className={styles.gameWrapper}>
         <Score attempts={attempts} missed={missed} />
         <Tiles

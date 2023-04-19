@@ -5,8 +5,9 @@ const Banner = ({ attempts, missed, onReset }) => {
     <div className={styles.bannerWrapper}>
       <p>
         You found all pairs in <span className={styles.number}>{attempts}</span>{" "}
-        attempts and missed <span className={styles.number}>{missed}</span>{" "}
-        times.
+        attempt{attempts > 1 ? "s" : ""} and missed{" "}
+        <span className={styles.number}>{missed}</span> time
+        {missed > 1 ? "s" : ""}.
       </p>
       <button onClick={onReset}>Play Again</button>
     </div>

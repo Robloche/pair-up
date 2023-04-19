@@ -1,21 +1,42 @@
-.attempts {
+@keyframes appear {
+    0% {
+        opacity: 0;
+        transform: translateY(-100%);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0%);
+    }
+}
+
+.scoreWrapper {
     align-items: center;
     background: #FFF;
     border-radius: var(--border-radius-l);
-    color: #000;
     display: flex;
-    font-size: 4rem;
-    font-weight: bold;
     justify-content: center;
     min-width: 92px;
     padding: var(--padding-m);
     position: relative;
 }
 
+.attempts {
+    animation: appear 300ms cubic-bezier(.4, .2, .3, .4);
+    color: #000;
+    font-size: 4rem;
+    font-weight: bold;
+}
+
+.attempts.noAnimation {
+    animation: unset;
+}
+
 .missed {
     bottom: 2px;
     color: #F00;
     font-size: 1.2rem;
+    font-weight: bold;
     position: absolute;
     right: 6px;
 }
