@@ -1,6 +1,6 @@
 import styles from "./Banner.module.css";
 
-const Banner = ({ attempts, missed, onReset }) => {
+const Banner = ({ attempts, isHighScore, missed, onReset }) => {
   return (
     <div className={styles.bannerWrapper}>
       <p>
@@ -9,6 +9,7 @@ const Banner = ({ attempts, missed, onReset }) => {
         <span className={styles.number}>{missed}</span> time
         {missed > 1 ? "s" : ""}.
       </p>
+      {isHighScore && <p className={styles.highScore}>New High Score!</p>}
       <button className="action" onClick={onReset}>
         Play Again
       </button>
