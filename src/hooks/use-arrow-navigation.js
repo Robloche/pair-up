@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 const getTileLeftward = (activeElt, count = 1) => {
   let elt = activeElt;
@@ -37,12 +37,12 @@ const useArrowNavigation = (rowCount, columnCount, cycle) => {
     (event) => {
       const { code } = event;
 
-      if (!["ArrowUp", "ArrowRight", "ArrowDown", "ArrowLeft"].includes(code)) {
+      if (!['ArrowUp', 'ArrowRight', 'ArrowDown', 'ArrowLeft'].includes(code)) {
         return;
       }
 
       const activeElt = document.activeElement;
-      if (!activeElt || !activeElt.getAttribute("data-tile")) {
+      if (!activeElt || !activeElt.getAttribute('data-tile')) {
         // Focused element is not a tile
         return;
       }
@@ -51,7 +51,7 @@ const useArrowNavigation = (rowCount, columnCount, cycle) => {
 
       event.preventDefault();
 
-      if (code === "ArrowUp") {
+      if (code === 'ArrowUp') {
         // Up
         if (activeId >= columnCount) {
           getTileUpward(activeElt, columnCount).focus();
@@ -59,7 +59,7 @@ const useArrowNavigation = (rowCount, columnCount, cycle) => {
           // Cycle to the bottom
           getTileDownward(activeElt, columnCount, rowCount - 1).focus();
         }
-      } else if (code === "ArrowDown") {
+      } else if (code === 'ArrowDown') {
         // Down
         if (activeId < rowCount * columnCount - columnCount) {
           getTileDownward(activeElt, columnCount).focus();
@@ -67,7 +67,7 @@ const useArrowNavigation = (rowCount, columnCount, cycle) => {
           // Cycle to the top
           getTileUpward(activeElt, columnCount, rowCount - 1).focus();
         }
-      } else if (code === "ArrowLeft") {
+      } else if (code === 'ArrowLeft') {
         // Left
         if (activeId % columnCount > 0) {
           getTileLeftward(activeElt).focus();
@@ -89,10 +89,10 @@ const useArrowNavigation = (rowCount, columnCount, cycle) => {
   );
 
   React.useEffect(() => {
-    window.addEventListener("keydown", handleOnKeydown);
+    window.addEventListener('keydown', handleOnKeydown);
 
     return () => {
-      window.removeEventListener("keydown", handleOnKeydown);
+      window.removeEventListener('keydown', handleOnKeydown);
     };
   }, [handleOnKeydown]);
 };

@@ -5,7 +5,7 @@ export const GameState = Object.freeze({
 });
 
 export const State = Object.freeze({
-  Found: "found",
-  Hidden: "hidden",
-  Visible: "visible",
+  Found: 'found',
+  Hidden: 'hidden',
+  Visible: 'visible',
 });

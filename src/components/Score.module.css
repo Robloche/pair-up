@@ -1,47 +1,47 @@
 @keyframes appear {
-    0% {
-        opacity: 0;
-        transform: translateY(-100%);
-    }
+  0% {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
 
-    100% {
-        opacity: 1;
-        transform: translateY(0%);
-    }
+  100% {
+    opacity: 1;
+    transform: translateY(0%);
+  }
 }
 
 .scoreWrapper {
-    align-items: center;
-    background: #FFF;
-    border-radius: var(--border-radius-l);
-    display: flex;
-    justify-content: center;
-    min-width: 92px;
-    padding: var(--padding-m);
-    position: relative;
+  align-items: center;
+  background: #fff;
+  border-radius: var(--border-radius-l);
+  display: flex;
+  justify-content: center;
+  min-width: 92px;
+  padding: var(--padding-m);
+  position: relative;
 }
 
 .attempts {
-    animation: appear 300ms cubic-bezier(.4, .2, .3, .4);
-    color: #000;
-    font-size: 4rem;
-    font-weight: bold;
+  animation: appear 300ms cubic-bezier(0.4, 0.2, 0.3, 0.4);
+  color: #000;
+  font-size: 4rem;
+  font-weight: bold;
 }
 
 .attempts.noAnimation {
-    animation: unset;
+  animation: unset;
 }
 
 .missed {
-    bottom: 2px;
-    color: #F00;
-    font-size: 1.2rem;
-    font-weight: bold;
-    position: absolute;
-    right: 6px;
+  bottom: 2px;
+  color: #f00;
+  font-size: 1.2rem;
+  font-weight: bold;
+  position: absolute;
+  right: 6px;
 }
 
 .missed span {
-    font-size: .7rem;
-    margin-right: .2rem;
+  font-size: 0.7rem;
+  margin-right: 0.2rem;
 }

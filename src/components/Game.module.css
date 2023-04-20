@@ -8,7 +8,7 @@
     row-gap: var(--padding-l);
 }
 
-.settingsBtn {
+.iconBtn {
     border: 0;
     background-color: var(--transparent-10);
     border-radius: var(--border-radius-s);
@@ -18,15 +18,19 @@
     right: 6rem;
 }
 
-.settingsBtn img {
-    transform: scale(.9);
+.restartBtn {
+    margin-top: 2.8rem;
+}
+
+.iconBtn img {
+    transform: scale(0.9);
     transition: transform 200ms ease-in-out;
 }
 
-.settingsBtn:hover {
+.iconBtn:hover {
     background-color: var(--transparent-20);
 }
 
-.settingsBtn:hover img {
+.iconBtn:hover img {
     transform: scale(1);
 }
