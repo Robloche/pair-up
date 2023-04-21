@@ -1,3 +1,4 @@
+import { ALL_TILES_HIDE_DURATION, SOLVE_INTERVAL_MAX, SOLVE_INTERVAL_MIN, TILE_HIDE_DURATION_MAX } from '@/helpers/constants';
 import { GameState, State } from '@/helpers/types';
 import { findHiddenTileIndex, getFoundTiles, getVisibleTiles, initializeTiles, setTilesAnimationDelay } from '@/helpers/tiles';
 import Banner from '@/components/Banner';
@@ -56,8 +57,8 @@ const Game = () => {
 
           // Check end
           if (getFoundTiles(tiles).length === tileCount) {
-            // Game is finished
-            if (checkUpdateHighScore(settings.rowCount, settings.columnCount, attempts, missed)) {
+            // Game is finished (attempts + 1 since it hasn't been updated yet)
+            if (checkUpdateHighScore(settings.rowCount, settings.columnCount, attempts + 1, missed)) {
               setGameState(GameState.FinishedHighScore);
             } else {
               setGameState(GameState.Finished);
@@ -65,7 +66,7 @@ const Game = () => {
           }
         } else {
           // Missed
-          setTimeout(hideTiles, 1_000);
+          setTimeout(hideTiles, ALL_TILES_HIDE_DURATION);
         }
       }
 
@@ -108,7 +109,7 @@ const Game = () => {
         return;
       }
 
-      setTimeout(() => solve(newTiles), getRandomInteger(100, 300));
+      setTimeout(() => solve(newTiles), getRandomInteger(SOLVE_INTERVAL_MIN, SOLVE_INTERVAL_MAX));
     },
     [tiles]
   );
@@ -127,7 +128,7 @@ const Game = () => {
     setGameState(GameState.Playing);
     setAttempts(0);
     hideTiles(true);
-    setTimeout(initTiles, 800);
+    setTimeout(initTiles, TILE_HIDE_DURATION_MAX);
   }, [hideTiles, settings.columnCount, settings.rowCount]);
 
   React.useEffect(() => {

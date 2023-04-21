@@ -1,0 +1,5 @@
+export const ALL_TILES_HIDE_DURATION = 1_000;
+export const TILE_HIDE_DURATION_MIN = 50;
+export const TILE_HIDE_DURATION_MAX = 800;
+export const SOLVE_INTERVAL_MIN = 100;
+export const SOLVE_INTERVAL_MAX = 300;

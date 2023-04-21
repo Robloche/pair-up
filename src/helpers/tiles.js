@@ -1,3 +1,4 @@
+import { TILE_HIDE_DURATION_MAX, TILE_HIDE_DURATION_MIN } from '@/helpers/constants';
 import { State } from '@/helpers/types';
 import React from 'react';
 import { getRandomInteger } from '@/helpers/math';
@@ -168,7 +169,7 @@ const getVisibleTiles = (tiles) => getTilesByState(tiles, State.Visible);
 
 const setTilesAnimationDelay = (isRandom = false) => {
   const tilesElt = document.querySelectorAll('button[data-tile]');
-  tilesElt.forEach((tileElt) => tileElt.style.setProperty('--tile-animation-delay', isRandom ? `${getRandomInteger(50, 800)}ms` : '0ms'));
+  tilesElt.forEach((tileElt) => tileElt.style.setProperty('--tile-animation-delay', isRandom ? `${getRandomInteger(TILE_HIDE_DURATION_MIN, TILE_HIDE_DURATION_MAX)}ms` : '0ms'));
 };
 
 /*
