@@ -14,7 +14,7 @@ const Home = () => {
       </Head>
       <main className={styles.main}>
         <SettingsProvider>
-          <ClientOnly>
+          <ClientOnly className={styles.clientOnly}>
             <Game />
           </ClientOnly>
         </SettingsProvider>
