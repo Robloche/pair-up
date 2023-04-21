@@ -30,6 +30,10 @@
     cursor: default;
 }
 
+.tileWrapper.visible {
+    border: 4px solid var(--accent-color);
+}
+
 .innerTile {
     border-radius: var(--border-radius-m);
     height: 100%;
