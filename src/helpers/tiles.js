@@ -163,6 +163,8 @@ const initializeTiles = (rowCount, columnCount) => {
 
 const getFoundTiles = (tiles) => getTilesByState(tiles, State.Found);
 
+const getHiddenTiles = (tiles) => getTilesByState(tiles, State.Hidden);
+
 const getTilesByState = (tiles, state) => tiles.filter((tile) => tile.state === state);
 
 const getVisibleTiles = (tiles) => getTilesByState(tiles, State.Visible);
@@ -185,4 +187,4 @@ const shuffleArray = (array) => {
   }
 };
 
-export { findHiddenTileIndex, getFoundTiles, getVisibleTiles, initializeTiles, setTilesAnimationDelay, shuffleArray };
+export { findHiddenTileIndex, getFoundTiles, getHiddenTiles, getVisibleTiles, initializeTiles, setTilesAnimationDelay, shuffleArray };

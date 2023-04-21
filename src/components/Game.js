@@ -1,6 +1,6 @@
 import { ALL_TILES_HIDE_DURATION, SOLVE_INTERVAL_MAX, SOLVE_INTERVAL_MIN, TILE_HIDE_DURATION_MAX } from '@/helpers/constants';
 import { GameState, State } from '@/helpers/types';
-import { findHiddenTileIndex, getFoundTiles, getVisibleTiles, initializeTiles, setTilesAnimationDelay } from '@/helpers/tiles';
+import { findHiddenTileIndex, getFoundTiles, getHiddenTiles, getVisibleTiles, initializeTiles, setTilesAnimationDelay } from '@/helpers/tiles';
 import Banner from '@/components/Banner';
 import Image from 'next/image';
 import React from 'react';
@@ -38,8 +38,6 @@ const Game = () => {
 
   const showTile = React.useCallback(
     (index, isHint) => {
-      setTilesAnimationDelay(false);
-
       const newTiles = [...tiles];
       newTiles[index].state = State.Visible;
       newTiles[index].discovered = true;
@@ -134,6 +132,13 @@ const Game = () => {
   React.useEffect(() => {
     reset();
   }, [reset, settings.columnCount, settings.rowCount]);
+
+  React.useEffect(() => {
+    // TODO: improve so that setTilesAnimationDelay() is not called on every miss when starting a game (maybe use a new GameState.Initializing?)
+    if (getHiddenTiles(tiles).length === tileCount) {
+      setTilesAnimationDelay(false);
+    }
+  }, [tileCount, tiles]);
 
   return (
     <>
