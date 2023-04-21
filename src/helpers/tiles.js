@@ -1,4 +1,6 @@
 import { State } from '@/helpers/types';
+import React from 'react';
+import { getRandomInteger } from '@/helpers/math';
 
 const findHiddenTileIndex = (tiles, startIndex, searchedChar) => {
   const { length: tileCount } = tiles;
@@ -164,6 +166,11 @@ const getTilesByState = (tiles, state) => tiles.filter((tile) => tile.state === 
 
 const getVisibleTiles = (tiles) => getTilesByState(tiles, State.Visible);
 
+const setTilesAnimationDelay = (isRandom = false) => {
+  const tilesElt = document.querySelectorAll('button[data-tile]');
+  tilesElt.forEach((tileElt) => tileElt.style.setProperty('--tile-animation-delay', isRandom ? `${getRandomInteger(50, 800)}ms` : '0ms'));
+};
+
 /*
  * Shuffle the given array of numbers in place
  * Implementation of Fischer-Yates algorithm
@@ -177,4 +184,4 @@ const shuffleArray = (array) => {
   }
 };
 
-export { findHiddenTileIndex, getFoundTiles, getVisibleTiles, initializeTiles, shuffleArray };
+export { findHiddenTileIndex, getFoundTiles, getVisibleTiles, initializeTiles, setTilesAnimationDelay, shuffleArray };

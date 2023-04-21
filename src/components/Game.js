@@ -1,5 +1,5 @@
 import { GameState, State } from '@/helpers/types';
-import { findHiddenTileIndex, getFoundTiles, getVisibleTiles, initializeTiles } from '@/helpers/tiles';
+import { findHiddenTileIndex, getFoundTiles, getVisibleTiles, initializeTiles, setTilesAnimationDelay } from '@/helpers/tiles';
 import Banner from '@/components/Banner';
 import Image from 'next/image';
 import React from 'react';
@@ -23,8 +23,9 @@ const Game = () => {
 
   const hideTiles = React.useCallback((hideFound = false) => {
     // Change transition-delay to a random number when hiding all tiles (new game) and to 0 in-game
-    const tilesElt = document.querySelectorAll('button[data-tile]');
-    tilesElt.forEach((tileElt) => tileElt.style.setProperty('--tile-animation-delay', hideFound ? `${getRandomInteger(0, 200)}ms` : '0ms'));
+    if (hideFound) {
+      setTilesAnimationDelay(true);
+    }
 
     setTiles((tiles) =>
       tiles.map((t) => ({
@@ -36,6 +37,8 @@ const Game = () => {
 
   const showTile = React.useCallback(
     (index, isHint) => {
+      setTilesAnimationDelay(false);
+
       const newTiles = [...tiles];
       newTiles[index].state = State.Visible;
       newTiles[index].discovered = true;
@@ -117,12 +120,14 @@ const Game = () => {
   }, [hideTiles, showHint, solve]);
 
   const reset = React.useCallback(() => {
-    const initTiles = () => setTiles(initializeTiles(settings.rowCount, settings.columnCount));
+    const initTiles = () => {
+      setTiles(initializeTiles(settings.rowCount, settings.columnCount));
+    };
 
     setGameState(GameState.Playing);
     setAttempts(0);
     hideTiles(true);
-    setTimeout(initTiles, 500);
+    setTimeout(initTiles, 800);
   }, [hideTiles, settings.columnCount, settings.rowCount]);
 
   React.useEffect(() => {
