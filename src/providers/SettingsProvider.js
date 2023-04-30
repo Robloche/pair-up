@@ -1,3 +1,4 @@
+import { loadSettings, storeSettings } from '@/helpers/settings';
 import { setCssValues, updateCssVariablesIfNeeded } from '@/helpers/css';
 import React from 'react';
 import Settings from '@/components/Settings';
@@ -15,8 +16,9 @@ const DEFAULT_SETTINGS = Object.freeze({
 const SettingsProvider = ({ children }) => {
   const [isOpen, setIsOpen] = React.useState(false);
   const [settings, setSettings] = React.useState(() => {
-    setCssValues(DEFAULT_SETTINGS.rowCount, DEFAULT_SETTINGS.columnCount);
-    return DEFAULT_SETTINGS;
+    const settings = loadSettings() ?? DEFAULT_SETTINGS;
+    setCssValues(settings.rowCount, settings.columnCount);
+    return settings;
   });
 
   const openSettings = React.useCallback(() => setIsOpen(true), []);
@@ -28,6 +30,7 @@ const SettingsProvider = ({ children }) => {
   const saveSettings = React.useCallback((newSettings) => {
     setIsOpen(false);
     setSettings(newSettings);
+    storeSettings(newSettings);
     updateCssVariablesIfNeeded(newSettings.rowCount, newSettings.columnCount);
 
     /*
