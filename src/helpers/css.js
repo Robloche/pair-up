@@ -11,10 +11,13 @@ const setCssValue = (cssName, value) => {
   rootElt.style.setProperty(cssName, value);
 };
 
-const setCssValues = ({ tileBackColor, rowCount, columnCount }) => {
-  setCssValue(CssTileBackColor, tileBackColor);
+const setRowColumnCssValues = (rowCount, columnCount) => {
   setCssValue(CssRows, rowCount);
   setCssValue(CssColumns, columnCount);
 };
 
-export { setCssValue, setCssValues };
+const setTileBackColorCssValue = (tileBackColor) => {
+  setCssValue(CssTileBackColor, tileBackColor);
+};
+
+export { setCssValue, setRowColumnCssValues, setTileBackColorCssValue };

@@ -1,5 +1,5 @@
 import { loadSettings, storeSettings } from '@/helpers/settings';
-import { setCssValues } from '@/helpers/css';
+import { setRowColumnCssValues, setTileBackColorCssValue } from '@/helpers/css';
 import React from 'react';
 import Settings from '@/components/Settings';
 import useKeyUp from '@/hooks/use-key-up';
@@ -18,7 +18,8 @@ const SettingsProvider = ({ children }) => {
   const [isOpen, setIsOpen] = React.useState(false);
   const [settings, setSettings] = React.useState(() => {
     const settings = loadSettings() ?? DEFAULT_SETTINGS;
-    setCssValues(settings);
+    setRowColumnCssValues(settings.rowCount, settings.columnCount);
+    setTileBackColorCssValue(settings.tileBackColor);
     return settings;
   });
 
@@ -26,15 +27,16 @@ const SettingsProvider = ({ children }) => {
 
   const closeSettings = React.useCallback(() => setIsOpen(false), []);
 
-  const applyCssSettings = React.useCallback(() => {
-    setCssValues(settings);
-  }, [settings]);
+  const applyCssRowColumnSettings = React.useCallback((rowCount, columnCount) => {
+    setRowColumnCssValues(rowCount, columnCount);
+  }, []);
 
   useKeyUp('Escape', closeSettings);
 
   const saveSettings = React.useCallback((newSettings) => {
     setIsOpen(false);
     setSettings(newSettings);
+    setTileBackColorCssValue(newSettings.tileBackColor);
     storeSettings(newSettings);
   }, []);
 
@@ -44,11 +46,11 @@ const SettingsProvider = ({ children }) => {
 
   const value = React.useMemo(
     () => ({
-      applyCssSettings,
+      applyCssRowColumnSettings,
       openSettings,
       settings,
     }),
-    [applyCssSettings, openSettings, settings]
+    [applyCssRowColumnSettings, openSettings, settings]
   );
 
   return (
