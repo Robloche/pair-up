@@ -40,13 +40,10 @@ const SettingsProvider = ({ children }) => {
     storeSettings(newSettings);
   }, []);
 
-  const resetSettings = React.useCallback(() => {
-    saveSettings(DEFAULT_SETTINGS);
-  }, [saveSettings]);
-
   const value = React.useMemo(
     () => ({
       applyCssRowColumnSettings,
+      defaultSettings: DEFAULT_SETTINGS,
       openSettings,
       settings,
     }),
@@ -56,7 +53,7 @@ const SettingsProvider = ({ children }) => {
   return (
     <SettingsContext.Provider value={value}>
       {children}
-      {isOpen && <Settings onCloseSettings={closeSettings} onResetSettings={resetSettings} onSaveSettings={saveSettings} settings={settings} />}
+      {isOpen && <Settings onCloseSettings={closeSettings} onSaveSettings={saveSettings} settings={settings} />}
     </SettingsContext.Provider>
   );
 };

@@ -1,15 +1,17 @@
 import FocusLock from 'react-focus-lock';
 import Image from 'next/image';
 import React from 'react';
+import { SettingsContext } from '@/providers/SettingsProvider';
 import closeIcon from '../assets/x.svg';
 import styles from './Settings.module.css';
 
-const Settings = ({ onCloseSettings, onResetSettings, onSaveSettings, settings }) => {
+const Settings = ({ onCloseSettings, onSaveSettings, settings }) => {
   const [cycle, setCycle] = React.useState(settings.cycle);
   const [showDiscovered, setShowDiscovered] = React.useState(settings.showDiscovered);
   const [tileBackColor, setTileBackColor] = React.useState(settings.tileBackColor);
   const [rowCount, setRowCount] = React.useState(settings.rowCount);
   const [columnCount, setColumnCount] = React.useState(settings.columnCount);
+  const { defaultSettings } = React.useContext(SettingsContext);
   const cycleId = React.useId();
   const showDiscoveredId = React.useId();
   const tileBackColorId = React.useId();
@@ -36,12 +38,17 @@ const Settings = ({ onCloseSettings, onResetSettings, onSaveSettings, settings }
     setColumnCount(Number(event.target.value));
   }, []);
 
-  const saveOnClick = React.useCallback(
-    (event) => {
-      onSaveSettings({ columnCount, cycle, rowCount, showDiscovered, tileBackColor });
-    },
-    [columnCount, cycle, onSaveSettings, rowCount, showDiscovered, tileBackColor]
-  );
+  const resetOnClick = React.useCallback(() => {
+    setCycle(defaultSettings.cycle);
+    setShowDiscovered(defaultSettings.showDiscovered);
+    setTileBackColor(defaultSettings.tileBackColor);
+    setRowCount(defaultSettings.rowCount);
+    setColumnCount(defaultSettings.columnCount);
+  }, [defaultSettings.columnCount, defaultSettings.cycle, defaultSettings.rowCount, defaultSettings.showDiscovered, defaultSettings.tileBackColor]);
+
+  const saveOnClick = React.useCallback(() => {
+    onSaveSettings({ columnCount, cycle, rowCount, showDiscovered, tileBackColor });
+  }, [columnCount, cycle, onSaveSettings, rowCount, showDiscovered, tileBackColor]);
 
   const isWarningDisplayed = rowCount !== settings.rowCount || columnCount !== settings.columnCount;
 
@@ -70,7 +77,7 @@ const Settings = ({ onCloseSettings, onResetSettings, onSaveSettings, settings }
             <span className={styles.count}>{columnCount}</span>
           </div>
           <div className={styles.buttons}>
-            <button className={`action ${styles.resetButton}`} onClick={onResetSettings}>
+            <button className={`action ${styles.resetButton}`} onClick={resetOnClick}>
               Reset
             </button>
             <button className={`action ${styles.saveButton}`} disabled={(rowCount * columnCount) % 2 > 0} onClick={saveOnClick}>
