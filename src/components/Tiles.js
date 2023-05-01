@@ -11,7 +11,7 @@ const Tiles = ({ showTile, tiles }) => {
   useArrowNavigation(settings.rowCount, settings.columnCount, settings.cycle);
 
   return (
-    <div className={styles.tilesWrapper}>
+    <div className={styles.tilesWrapper} id='tiles-grid'>
       {tiles.map((tile) => (
         <Tile key={tile.index} showTile={showTile} tile={tile} />
       ))}

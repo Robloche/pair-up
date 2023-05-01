@@ -115,6 +115,7 @@ const Game = () => {
 
   const reset = React.useCallback(() => {
     const initTiles = () => {
+      document.getElementById('tiles-grid').style.opacity = '1';
       setTiles(initializeTiles(settings.rowCount, settings.columnCount));
       setGameState(GameState.Playing);
       setTilesAnimationDelay(false);
