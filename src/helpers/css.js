@@ -1,29 +1,46 @@
+const CssTileBackColor = '--tile-back-color';
 const CssRows = '--grid-rows';
 const CssColumns = '--grid-columns';
 
-const setCssValues = (rowCount, columnCount) => {
+const setCssValue = (cssName, value) => {
   if (typeof window === 'undefined') {
     return;
   }
 
   const rootElt = window.document.querySelector(':root');
-  rootElt.style.setProperty(CssRows, rowCount);
-  rootElt.style.setProperty(CssColumns, columnCount);
+  rootElt.style.setProperty(cssName, value);
 };
 
-const updateCssVariablesIfNeeded = (rowCount, columnCount) => {
+const setCssValues = (tileBackColor, rowCount, columnCount) => {
+  setCssValue(CssTileBackColor, tileBackColor);
+  setCssValue(CssRows, rowCount);
+  setCssValue(CssColumns, columnCount);
+};
+
+const updateCssVariablesIfNeeded = (tileBackColor, rowCount, columnCount) => {
   const bodyStyles = window.getComputedStyle(document.body);
+  const currentTileBackColor = Number(bodyStyles.getPropertyValue(CssTileBackColor));
   const currentRowCount = Number(bodyStyles.getPropertyValue(CssRows));
   const currentColumnCount = Number(bodyStyles.getPropertyValue(CssColumns));
 
-  if (rowCount === currentRowCount && columnCount === currentColumnCount) {
-    // Same values
-    return false;
+  let hasChanged = false;
+
+  if (tileBackColor !== currentTileBackColor) {
+    hasChanged = true;
+    setCssValue(CssTileBackColor, tileBackColor);
   }
 
-  // New values
-  setCssValues(rowCount, columnCount);
-  return true;
+  if (rowCount !== currentRowCount) {
+    hasChanged = true;
+    setCssValue(CssRows, rowCount);
+  }
+
+  if (columnCount !== currentColumnCount) {
+    hasChanged = true;
+    setCssValue(CssColumns, columnCount);
+  }
+
+  return hasChanged;
 };
 
-export { setCssValues, updateCssVariablesIfNeeded };
+export { setCssValue, setCssValues, updateCssVariablesIfNeeded };

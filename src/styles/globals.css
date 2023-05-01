@@ -21,6 +21,8 @@
   --transparent-50: rgb(255 255 255 / 50%);
   --transparent-80: rgb(255 255 255 / 80%);
 
+  --tile-back-color: var(--transparent-40);
+
   --grid-rows: 4;
   --grid-columns: 4;
   --grid-gap: 2px;

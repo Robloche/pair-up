@@ -7,10 +7,12 @@ import styles from './Settings.module.css';
 const Settings = ({ onCloseSettings, onSaveSettings, settings }) => {
   const [cycle, setCycle] = React.useState(settings.cycle);
   const [showDiscovered, setShowDiscovered] = React.useState(settings.showDiscovered);
+  const [tileBackColor, setTileBackColor] = React.useState(settings.tileBackColor);
   const [rowCount, setRowCount] = React.useState(settings.rowCount);
   const [columnCount, setColumnCount] = React.useState(settings.columnCount);
   const cycleId = React.useId();
   const showDiscoveredId = React.useId();
+  const tileBackColorId = React.useId();
   const rowId = React.useId();
   const columnId = React.useId();
 
@@ -20,6 +22,10 @@ const Settings = ({ onCloseSettings, onSaveSettings, settings }) => {
 
   const showDiscoveredOnChange = React.useCallback((event) => {
     setShowDiscovered(event.target.checked);
+  }, []);
+
+  const tileBackColorOnChange = React.useCallback((event) => {
+    setTileBackColor(event.target.value);
   }, []);
 
   const rowCountOnChange = React.useCallback((event) => {
@@ -32,9 +38,9 @@ const Settings = ({ onCloseSettings, onSaveSettings, settings }) => {
 
   const saveOnClick = React.useCallback(
     (event) => {
-      onSaveSettings({ columnCount, cycle, rowCount, showDiscovered });
+      onSaveSettings({ columnCount, cycle, rowCount, showDiscovered, tileBackColor });
     },
-    [columnCount, cycle, onSaveSettings, rowCount, showDiscovered]
+    [columnCount, cycle, onSaveSettings, rowCount, showDiscovered, tileBackColor]
   );
 
   const isWarningDisplayed = rowCount !== settings.rowCount || columnCount !== settings.columnCount;
@@ -50,6 +56,8 @@ const Settings = ({ onCloseSettings, onSaveSettings, settings }) => {
             <input checked={cycle} id={cycleId} onChange={cycleOnChange} type='checkbox' />
             <label htmlFor={showDiscoveredId}>Show already discovered tiles:</label>
             <input checked={showDiscovered} id={showDiscoveredId} onChange={showDiscoveredOnChange} type='checkbox' />
+            <label htmlFor={tileBackColorId}>Back color of tiles:</label>
+            <input id={tileBackColorId} onChange={tileBackColorOnChange} type='color' value={tileBackColor} />
             <label className={styles.fullRow} htmlFor={rowId}>
               Number of rows:
             </label>

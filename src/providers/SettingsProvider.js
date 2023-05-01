@@ -11,13 +11,14 @@ const DEFAULT_SETTINGS = Object.freeze({
   cycle: true,
   rowCount: 4,
   showDiscovered: false,
+  tileBackColor: 'rgb(255 255 255 / 40%)',
 });
 
 const SettingsProvider = ({ children }) => {
   const [isOpen, setIsOpen] = React.useState(false);
   const [settings, setSettings] = React.useState(() => {
     const settings = loadSettings() ?? DEFAULT_SETTINGS;
-    setCssValues(settings.rowCount, settings.columnCount);
+    setCssValues(settings.tileBackColor, settings.rowCount, settings.columnCount);
     return settings;
   });
 
@@ -31,7 +32,7 @@ const SettingsProvider = ({ children }) => {
     setIsOpen(false);
     setSettings(newSettings);
     storeSettings(newSettings);
-    updateCssVariablesIfNeeded(newSettings.rowCount, newSettings.columnCount);
+    updateCssVariablesIfNeeded(newSettings.tileBackColor, newSettings.rowCount, newSettings.columnCount);
 
     /*
      * if (updateCssVariablesIfNeeded(newSettings.rowCount, newSettings.columnCount)) {
