@@ -22,6 +22,7 @@ const Tile = ({ showTile, tile }) => {
         <div className={styles.front}>{tile.char}</div>
         <div className={styles.back} />
       </div>
+      <div className={styles.hover} />
     </button>
   );
 };
