@@ -4,7 +4,7 @@ import React from 'react';
 import closeIcon from '../assets/x.svg';
 import styles from './Settings.module.css';
 
-const Settings = ({ onCloseSettings, onSaveSettings, settings }) => {
+const Settings = ({ onCloseSettings, onResetSettings, onSaveSettings, settings }) => {
   const [cycle, setCycle] = React.useState(settings.cycle);
   const [showDiscovered, setShowDiscovered] = React.useState(settings.showDiscovered);
   const [tileBackColor, setTileBackColor] = React.useState(settings.tileBackColor);
@@ -69,9 +69,14 @@ const Settings = ({ onCloseSettings, onSaveSettings, settings }) => {
             <input id={columnId} max={10} min={1} onChange={columnCountOnChange} type='range' value={columnCount} />
             <span className={styles.count}>{columnCount}</span>
           </div>
-          <button className={`action ${styles.saveButton}`} disabled={(rowCount * columnCount) % 2 > 0} onClick={saveOnClick}>
-            Save & Close
-          </button>
+          <div className={styles.buttons}>
+            <button className={`action ${styles.resetButton}`} onClick={onResetSettings}>
+              Reset
+            </button>
+            <button className={`action ${styles.saveButton}`} disabled={(rowCount * columnCount) % 2 > 0} onClick={saveOnClick}>
+              Save & Close
+            </button>
+          </div>
           {isWarningDisplayed && <div className={styles.warning}>(Changing rows or columns will start a new game.)</div>}
           <button className={styles.closeBtn} onClick={onCloseSettings}>
             <Image alt='Close icon' src={closeIcon} />

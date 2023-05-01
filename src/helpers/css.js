@@ -11,13 +11,13 @@ const setCssValue = (cssName, value) => {
   rootElt.style.setProperty(cssName, value);
 };
 
-const setCssValues = (tileBackColor, rowCount, columnCount) => {
+const setCssValues = ({ tileBackColor, rowCount, columnCount }) => {
   setCssValue(CssTileBackColor, tileBackColor);
   setCssValue(CssRows, rowCount);
   setCssValue(CssColumns, columnCount);
 };
 
-const updateCssVariablesIfNeeded = (tileBackColor, rowCount, columnCount) => {
+const updateCssVariablesIfNeeded = ({ tileBackColor, rowCount, columnCount }) => {
   const bodyStyles = window.getComputedStyle(document.body);
   const currentTileBackColor = Number(bodyStyles.getPropertyValue(CssTileBackColor));
   const currentRowCount = Number(bodyStyles.getPropertyValue(CssRows));

@@ -18,7 +18,7 @@ const SettingsProvider = ({ children }) => {
   const [isOpen, setIsOpen] = React.useState(false);
   const [settings, setSettings] = React.useState(() => {
     const settings = loadSettings() ?? DEFAULT_SETTINGS;
-    setCssValues(settings.tileBackColor, settings.rowCount, settings.columnCount);
+    setCssValues(settings);
     return settings;
   });
 
@@ -32,13 +32,20 @@ const SettingsProvider = ({ children }) => {
     setIsOpen(false);
     setSettings(newSettings);
     storeSettings(newSettings);
-    updateCssVariablesIfNeeded(newSettings.tileBackColor, newSettings.rowCount, newSettings.columnCount);
+    updateCssVariablesIfNeeded(newSettings);
 
     /*
-     * if (updateCssVariablesIfNeeded(newSettings.rowCount, newSettings.columnCount)) {
+     * if (updateCssVariablesIfNeeded(newSettings)) {
      *   reset(true);
      * }
      */
+  }, []);
+
+  const resetSettings = React.useCallback(() => {
+    setIsOpen(false);
+    setSettings(DEFAULT_SETTINGS);
+    storeSettings(DEFAULT_SETTINGS);
+    updateCssVariablesIfNeeded(DEFAULT_SETTINGS);
   }, []);
 
   const value = React.useMemo(
@@ -52,7 +59,7 @@ const SettingsProvider = ({ children }) => {
   return (
     <SettingsContext.Provider value={value}>
       {children}
-      {isOpen && <Settings onCloseSettings={closeSettings} onSaveSettings={saveSettings} settings={settings} />}
+      {isOpen && <Settings onCloseSettings={closeSettings} onResetSettings={resetSettings} onSaveSettings={saveSettings} settings={settings} />}
     </SettingsContext.Provider>
   );
 };
