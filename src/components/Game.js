@@ -120,7 +120,6 @@ const Game = () => {
   const shuffleTiles = React.useCallback(() => {
     setTiles((tiles) => shuffleArray([...tiles]));
     shuffleTimeoutId.current = setTimeout(shuffleTiles, 400);
-    console.log('setting timeout shuffle');
   }, []);
 
   const turnTiles = React.useCallback(() => {
@@ -144,6 +143,7 @@ const Game = () => {
     });
 
     setGameState(GameState.Playing);
+    isResetting.current = false;
   }, []);
 
   const reset = React.useCallback(() => {
