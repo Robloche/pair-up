@@ -1,5 +1,5 @@
 import { loadSettings, storeSettings } from '@/helpers/settings';
-import { setCssValues, updateCssVariablesIfNeeded } from '@/helpers/css';
+import { setCssValues } from '@/helpers/css';
 import React from 'react';
 import Settings from '@/components/Settings';
 import useKeyUp from '@/hooks/use-key-up';
@@ -11,7 +11,7 @@ const DEFAULT_SETTINGS = Object.freeze({
   cycle: true,
   rowCount: 4,
   showDiscovered: false,
-  tileBackColor: 'rgb(255 255 255 / 40%)',
+  tileBackColor: '#666',
 });
 
 const SettingsProvider = ({ children }) => {
@@ -32,20 +32,14 @@ const SettingsProvider = ({ children }) => {
     setIsOpen(false);
     setSettings(newSettings);
     storeSettings(newSettings);
-    updateCssVariablesIfNeeded(newSettings);
-
-    /*
-     * if (updateCssVariablesIfNeeded(newSettings)) {
-     *   reset(true);
-     * }
-     */
+    setCssValues(newSettings);
   }, []);
 
   const resetSettings = React.useCallback(() => {
     setIsOpen(false);
     setSettings(DEFAULT_SETTINGS);
     storeSettings(DEFAULT_SETTINGS);
-    updateCssVariablesIfNeeded(DEFAULT_SETTINGS);
+    setCssValues(DEFAULT_SETTINGS);
   }, []);
 
   const value = React.useMemo(

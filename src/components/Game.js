@@ -15,7 +15,7 @@ import styles from './Game.module.css';
 
 const Game = () => {
   const [attempts, setAttempts] = React.useState(0);
-  const [gameState, setGameState] = React.useState(GameState.Playing);
+  const [gameState, setGameState] = React.useState(GameState.Shuffling);
   const { openSettings, settings } = React.useContext(SettingsContext);
   const [tiles, setTiles] = React.useState(() => initializeTiles(settings.rowCount, settings.columnCount));
 
@@ -23,11 +23,6 @@ const Game = () => {
   const missed = attempts - getFoundTiles(tiles).length / 2;
 
   const hideTiles = React.useCallback((hideFound = false) => {
-    // Change transition-delay to a random number when hiding all tiles (new game) and to 0 in-game
-    if (hideFound) {
-      setTilesAnimationDelay(true);
-    }
-
     setTiles((tiles) =>
       tiles.map((t) => ({
         ...t,
@@ -121,9 +116,11 @@ const Game = () => {
   const reset = React.useCallback(() => {
     const initTiles = () => {
       setTiles(initializeTiles(settings.rowCount, settings.columnCount));
+      setGameState(GameState.Playing);
+      setTilesAnimationDelay(false);
     };
 
-    setGameState(GameState.Playing);
+    setGameState(GameState.Shuffling);
     setAttempts(0);
     hideTiles(true);
     setTimeout(initTiles, TILE_HIDE_DURATION_MAX);
@@ -134,15 +131,17 @@ const Game = () => {
   }, [reset, settings.columnCount, settings.rowCount]);
 
   React.useEffect(() => {
-    // TODO: improve so that setTilesAnimationDelay() is not called on every miss when starting a game (maybe use a new GameState.Initializing?)
-    if (getHiddenTiles(tiles).length === tileCount) {
-      setTilesAnimationDelay(false);
+    if (gameState === GameState.Shuffling) {
+      // Change transition-delay to a random number when hiding all tiles (new game) and to 0 in-game
+      setTilesAnimationDelay(true);
     }
-  }, [tileCount, tiles]);
+  }, [gameState]);
 
   return (
     <>
-      {gameState !== GameState.Playing && <Banner attempts={attempts} isHighScore={gameState === GameState.FinishedHighScore} missed={missed} onReset={reset} />}
+      {(gameState === GameState.Finished || gameState === GameState.FinishedHighScore) && (
+        <Banner attempts={attempts} isHighScore={gameState === GameState.FinishedHighScore} missed={missed} onReset={reset} />
+      )}
       <div className={styles.gameWrapper}>
         <button className={styles.iconBtn} onClick={openSettings}>
           <Image alt='Settings icon' src={settingsIcon} />
