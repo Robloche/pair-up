@@ -26,23 +26,17 @@ const SettingsProvider = ({ children }) => {
 
   const closeSettings = React.useCallback(() => setIsOpen(false), []);
 
+  const applyCssSettings = React.useCallback(() => {
+    setCssValues(settings);
+  }, [settings]);
+
   useKeyUp('Escape', closeSettings);
 
-  const saveSettings = React.useCallback(
-    (newSettings) => {
-      const needReset = newSettings.rowCount !== settings.rowCount || newSettings.columnCount !== settings.columnCount;
-
-      if (needReset) {
-        document.getElementById('tiles-grid').style.opacity = '0';
-      }
-
-      setIsOpen(false);
-      setSettings(newSettings);
-      storeSettings(newSettings);
-      setCssValues(newSettings);
-    },
-    [settings.columnCount, settings.rowCount]
-  );
+  const saveSettings = React.useCallback((newSettings) => {
+    setIsOpen(false);
+    setSettings(newSettings);
+    storeSettings(newSettings);
+  }, []);
 
   const resetSettings = React.useCallback(() => {
     saveSettings(DEFAULT_SETTINGS);
@@ -50,10 +44,11 @@ const SettingsProvider = ({ children }) => {
 
   const value = React.useMemo(
     () => ({
+      applyCssSettings,
       openSettings,
       settings,
     }),
-    [openSettings, settings]
+    [applyCssSettings, openSettings, settings]
   );
 
   return (

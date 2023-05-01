@@ -16,7 +16,7 @@ import styles from './Game.module.css';
 const Game = () => {
   const [attempts, setAttempts] = React.useState(0);
   const [gameState, setGameState] = React.useState(GameState.Shuffling);
-  const { openSettings, settings } = React.useContext(SettingsContext);
+  const { applyCssSettings, openSettings, settings } = React.useContext(SettingsContext);
   const [tiles, setTiles] = React.useState(() => initializeTiles(settings.rowCount, settings.columnCount));
 
   const tileCount = settings.rowCount * settings.columnCount;
@@ -115,7 +115,7 @@ const Game = () => {
 
   const reset = React.useCallback(() => {
     const initTiles = () => {
-      document.getElementById('tiles-grid').style.opacity = '1';
+      applyCssSettings();
       setTiles(initializeTiles(settings.rowCount, settings.columnCount));
       setGameState(GameState.Playing);
       setTilesAnimationDelay(false);
@@ -123,9 +123,9 @@ const Game = () => {
 
     setGameState(GameState.Shuffling);
     setAttempts(0);
-    hideTiles(true);
+    setTiles([]);
     setTimeout(initTiles, TILE_HIDE_DURATION_MAX);
-  }, [hideTiles, settings.columnCount, settings.rowCount]);
+  }, [applyCssSettings, settings.columnCount, settings.rowCount]);
 
   React.useEffect(() => {
     reset();
