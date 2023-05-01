@@ -6,12 +6,16 @@ const storeSettings = (settings) => {
   }
 };
 
-const loadSettings = (settings) => {
+const loadSettings = (defaultSettings) => {
   try {
-    return JSON.parse(localStorage.getItem('settings'));
+    const settings = JSON.parse(localStorage.getItem('settings'));
+    return {
+      ...defaultSettings,
+      ...settings,
+    };
   } catch {
     console.warn('Local storage seems disable (cannot load settings)');
-    return null;
+    return defaultSettings;
   }
 };
 

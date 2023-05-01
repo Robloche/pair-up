@@ -11,13 +11,14 @@ const DEFAULT_SETTINGS = Object.freeze({
   cycle: true,
   rowCount: 4,
   showDiscovered: false,
-  tileBackColor: '#666',
+  showShuffle: true,
+  tileBackColor: '#666666',
 });
 
 const SettingsProvider = ({ children }) => {
   const [isOpen, setIsOpen] = React.useState(false);
   const [settings, setSettings] = React.useState(() => {
-    const settings = loadSettings() ?? DEFAULT_SETTINGS;
+    const settings = loadSettings(DEFAULT_SETTINGS);
     setRowColumnCssValues(settings.rowCount, settings.columnCount);
     setTileBackColorCssValue(settings.tileBackColor);
     return settings;
