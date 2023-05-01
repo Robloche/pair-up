@@ -3,7 +3,7 @@ import { SettingsContext } from '@/providers/SettingsProvider';
 import { State } from '@/helpers/types';
 import styles from './Tile.module.css';
 
-const Tile = ({ showTile, tile }) => {
+const Tile = ({ showTile, tile, ...rest }) => {
   const {
     settings: { showDiscovered },
   } = React.useContext(SettingsContext);
@@ -17,7 +17,13 @@ const Tile = ({ showTile, tile }) => {
   };
 
   return (
-    <button className={`${styles.tileWrapper} ${styles[tile.state]} ${showDiscovered && tile.discovered ? styles.discovered : ''}`} data-tile={true} id={tile.index.toString()} onClick={handleOnClick}>
+    <button
+      className={`${styles.tileWrapper} ${styles[tile.state]} ${showDiscovered && tile.discovered ? styles.discovered : ''}`}
+      data-tile={true}
+      id={tile.index.toString()}
+      onClick={handleOnClick}
+      {...rest}
+    >
       <div className={styles.innerTile}>
         <div className={styles.front}>{tile.char}</div>
         <div className={styles.back} />

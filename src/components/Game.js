@@ -1,6 +1,6 @@
 import { ALL_TILES_HIDE_DURATION, SOLVE_INTERVAL_MAX, SOLVE_INTERVAL_MIN, TILE_HIDE_DURATION_MAX } from '@/helpers/constants';
 import { GameState, State } from '@/helpers/types';
-import { findHiddenTileIndex, getFoundTiles, getHiddenTiles, getVisibleTiles, initializeTiles, setTilesAnimationDelay } from '@/helpers/tiles';
+import { findHiddenTileIndex, getFoundTiles, getVisibleTiles, initializeTiles, setTilesAnimationDelay, shuffleArray } from '@/helpers/tiles';
 import Banner from '@/components/Banner';
 import Image from 'next/image';
 import React from 'react';
@@ -18,6 +18,10 @@ const Game = () => {
   const [gameState, setGameState] = React.useState(GameState.Shuffling);
   const { applyCssRowColumnSettings, openSettings, settings } = React.useContext(SettingsContext);
   const [tiles, setTiles] = React.useState(() => initializeTiles(settings.rowCount, settings.columnCount));
+  const shuffleTimeoutId = React.useRef(null);
+  const turnTilesTimeoutId = React.useRef(null);
+  const stopShufflingTimeoutId = React.useRef(null);
+  const isResetting = React.useRef(false);
 
   const tileCount = settings.rowCount * settings.columnCount;
   const missed = attempts - getFoundTiles(tiles).length / 2;
@@ -113,22 +117,72 @@ const Game = () => {
     window.dbgSolve = solve;
   }, [hideTiles, showHint, solve]);
 
+  const shuffleTiles = React.useCallback(() => {
+    setTiles((tiles) => shuffleArray([...tiles]));
+    shuffleTimeoutId.current = setTimeout(shuffleTiles, 400);
+    console.log('setting timeout shuffle');
+  }, []);
+
+  const turnTiles = React.useCallback(() => {
+    setTiles((tiles) => {
+      const newTiles = [...tiles];
+      newTiles.forEach((tile) => (tile.state = State.Hidden));
+      return newTiles;
+    });
+  }, []);
+
+  const stopShuffling = React.useCallback(() => {
+    if (shuffleTimeoutId.current) {
+      clearTimeout(shuffleTimeoutId.current);
+    }
+
+    // Reset indices
+    setTiles((tiles) => {
+      const newTiles = [...tiles];
+      newTiles.forEach((tile, i) => (tile.index = i));
+      return newTiles;
+    });
+
+    setGameState(GameState.Playing);
+  }, []);
+
   const reset = React.useCallback(() => {
+    if (isResetting.current) {
+      // Prevent from starting shuffling twice in React strict mode
+      return;
+    }
+
+    isResetting.current = true;
+
     const initTiles = () => {
       applyCssRowColumnSettings(settings.rowCount, settings.columnCount);
       setTiles(initializeTiles(settings.rowCount, settings.columnCount));
-      setGameState(GameState.Playing);
       setTilesAnimationDelay(false);
+      shuffleTimeoutId.current = setTimeout(shuffleTiles, 1_000);
+      turnTilesTimeoutId.current = setTimeout(turnTiles, 5_000);
+      stopShufflingTimeoutId.current = setTimeout(stopShuffling, 7_000);
     };
 
     setGameState(GameState.Shuffling);
     setAttempts(0);
     setTiles([]);
     setTimeout(initTiles, TILE_HIDE_DURATION_MAX);
-  }, [applyCssRowColumnSettings, settings.columnCount, settings.rowCount]);
+  }, [applyCssRowColumnSettings, settings.columnCount, settings.rowCount, shuffleTiles, stopShuffling, turnTiles]);
 
   React.useEffect(() => {
     reset();
+
+    return () => {
+      if (shuffleTimeoutId.current) {
+        clearTimeout(shuffleTimeoutId.current);
+      }
+      if (turnTilesTimeoutId.current) {
+        clearTimeout(turnTilesTimeoutId.current);
+      }
+      if (stopShufflingTimeoutId.current) {
+        clearTimeout(stopShufflingTimeoutId.current);
+      }
+    };
   }, [reset, settings.columnCount, settings.rowCount]);
 
   React.useEffect(() => {

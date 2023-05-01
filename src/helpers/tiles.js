@@ -24,7 +24,7 @@ const initializeTiles = (rowCount, columnCount) => {
     throw Error(`Grid dimension should lead to an even number of tiles but got ${rowCount}x${columnCount}`);
   }
 
-  const TILES = [
+  const EMOJIS = [
     '😀',
     '😃',
     '😄',
@@ -142,22 +142,24 @@ const initializeTiles = (rowCount, columnCount) => {
   ];
 
   // Shuffle available tiles
-  shuffleArray(TILES);
+  shuffleArray(EMOJIS);
 
   // Take first (tileCount / 2) ones
-  const tiles = TILES.slice(0, tileCount / 2);
+  const emojis = EMOJIS.slice(0, tileCount / 2);
 
   // Add same tiles to create pairs
-  tiles.push(...tiles);
+  const emojiPairs = [];
+  emojis.forEach((emoji) => emojiPairs.push(emoji, emoji));
 
   // Shuffle chosen tiles
-  shuffleArray(tiles);
+  //shuffleArray(tiles);
 
-  return tiles.map((emoji, i) => ({
+  return emojiPairs.map((emoji, i) => ({
     index: i,
     char: emoji,
+    key: `${emoji}-${i}`,
     discovered: false,
-    state: State.Hidden,
+    state: State.Shuffling,
   }));
 };
 
@@ -185,6 +187,8 @@ const shuffleArray = (array) => {
     const j = Math.floor(Math.random() * (i + 1));
     [array[i], array[j]] = [array[j], array[i]];
   }
+
+  return array;
 };
 
 export { findHiddenTileIndex, getFoundTiles, getHiddenTiles, getVisibleTiles, initializeTiles, setTilesAnimationDelay, shuffleArray };

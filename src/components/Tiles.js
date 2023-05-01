@@ -1,3 +1,4 @@
+import { Flipper, Flipped } from 'react-flip-toolkit';
 import React from 'react';
 import { SettingsContext } from '@/providers/SettingsProvider';
 import Tile from '@/components/Tile';
@@ -12,9 +13,13 @@ const Tiles = ({ showTile, tiles }) => {
 
   return (
     <div className={styles.tilesWrapper}>
-      {tiles.map((tile) => (
-        <Tile key={tile.index} showTile={showTile} tile={tile} />
-      ))}
+      <Flipper className={styles.tilesWrapper} flipKey={tiles.map((tile) => tile.key).join('')}>
+        {tiles.map((tile) => (
+          <Flipped key={tile.key} flipId={tile.key}>
+            <Tile showTile={showTile} tile={tile} />
+          </Flipped>
+        ))}
+      </Flipper>
       {getVisibleTiles(tiles).length === 2 && <div className={styles.lockMask} />}
     </div>
   );

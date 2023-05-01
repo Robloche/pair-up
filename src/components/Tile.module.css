@@ -76,7 +76,8 @@
 
 /* Showing emoji */
 .tileWrapper.visible .innerTile,
-.tileWrapper.found .innerTile {
+.tileWrapper.found .innerTile,
+.tileWrapper.shuffling .innerTile {
     transform: rotateY(180deg);
 }
 

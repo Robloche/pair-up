@@ -8,5 +8,6 @@ export const GameState = Object.freeze({
 export const State = Object.freeze({
   Found: 'found',
   Hidden: 'hidden',
+  Shuffling: 'shuffling',
   Visible: 'visible',
 });
