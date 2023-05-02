@@ -23,6 +23,9 @@ const SettingsProvider = ({ children }) => {
     setTileBackColorCssValue(settings.tileBackColor);
     return settings;
   });
+  const [triggerReset, setTriggerReset] = React.useState(true);
+
+  const clearTriggerReset = React.useCallback(() => setTriggerReset(false), []);
 
   const openSettings = React.useCallback(() => setIsOpen(true), []);
 
@@ -34,21 +37,27 @@ const SettingsProvider = ({ children }) => {
 
   useKeyUp('Escape', closeSettings);
 
-  const saveSettings = React.useCallback((newSettings) => {
-    setIsOpen(false);
-    setSettings(newSettings);
-    setTileBackColorCssValue(newSettings.tileBackColor);
-    storeSettings(newSettings);
-  }, []);
+  const saveSettings = React.useCallback(
+    (newSettings) => {
+      setIsOpen(false);
+      setSettings(newSettings);
+      setTileBackColorCssValue(newSettings.tileBackColor);
+      storeSettings(newSettings);
+      setTriggerReset(newSettings.rowCount !== settings.rowCount || newSettings.columnCount !== settings.columnCount);
+    },
+    [settings]
+  );
 
   const value = React.useMemo(
     () => ({
       applyCssRowColumnSettings,
+      clearTriggerReset,
       defaultSettings: DEFAULT_SETTINGS,
       openSettings,
       settings,
+      triggerReset,
     }),
-    [applyCssRowColumnSettings, openSettings, settings]
+    [applyCssRowColumnSettings, clearTriggerReset, openSettings, settings, triggerReset]
   );
 
   return (

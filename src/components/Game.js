@@ -25,7 +25,7 @@ import styles from './Game.module.css';
 const Game = () => {
   const [attempts, setAttempts] = React.useState(0);
   const [gameState, setGameState] = React.useState(GameState.Shuffling);
-  const { applyCssRowColumnSettings, openSettings, settings } = React.useContext(SettingsContext);
+  const { applyCssRowColumnSettings, clearTriggerReset, openSettings, settings, triggerReset } = React.useContext(SettingsContext);
   const [tiles, setTiles] = React.useState(() => initializeTiles(settings.rowCount, settings.columnCount));
   const shuffleTimeoutId = React.useRef(null);
   const turnTilesTimeoutId = React.useRef(null);
@@ -152,6 +152,7 @@ const Game = () => {
     });
 
     setGameState(GameState.Playing);
+    setTilesAnimationDelay(false);
     isResetting.current = false;
   }, []);
 
@@ -166,7 +167,6 @@ const Game = () => {
     const initTiles = () => {
       applyCssRowColumnSettings(settings.rowCount, settings.columnCount);
       setTiles(initializeTiles(settings.rowCount, settings.columnCount));
-      setTilesAnimationDelay(false);
       if (settings.showShuffle) {
         // Show shuffling animation
         shuffleTimeoutId.current = setTimeout(shuffleTiles, ORDERED_TILES_VISIBILITY_DURATION);
@@ -184,10 +184,13 @@ const Game = () => {
     setAttempts(0);
     setTiles([]);
     setTimeout(initTiles, TILE_HIDE_DURATION_MAX);
-  }, [applyCssRowColumnSettings, settings.columnCount, settings.rowCount, settings.showShuffle, shuffleTiles, stopShuffling, turnTiles]);
+    clearTriggerReset();
+  }, [applyCssRowColumnSettings, clearTriggerReset, settings.columnCount, settings.rowCount, settings.showShuffle, shuffleTiles, stopShuffling, turnTiles]);
 
   React.useEffect(() => {
-    reset();
+    if (triggerReset) {
+      reset();
+    }
 
     return () => {
       if (shuffleTimeoutId.current) {
@@ -200,14 +203,7 @@ const Game = () => {
         clearTimeout(stopShufflingTimeoutId.current);
       }
     };
-  }, [reset, settings.columnCount, settings.rowCount]);
-
-  React.useEffect(() => {
-    if (gameState === GameState.Shuffling) {
-      // Change transition-delay to a random number when hiding all tiles (new game) and to 0 in-game
-      setTilesAnimationDelay(true);
-    }
-  }, [gameState]);
+  }, [reset, triggerReset]);
 
   return (
     <>

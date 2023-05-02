@@ -13,7 +13,7 @@ const Tiles = ({ showTile, tiles }) => {
 
   return (
     <div className={styles.tilesWrapper}>
-      <Flipper className={styles.tilesWrapper} flipKey={tiles.map((tile) => tile.key).join('')}>
+      <Flipper className={styles.tilesWrapper} flipKey={tiles.map((tile) => tile.key).join('')} spring='gentle'>
         {tiles.map((tile) => (
           <Flipped key={tile.key} flipId={tile.key}>
             <Tile showTile={showTile} tile={tile} />
