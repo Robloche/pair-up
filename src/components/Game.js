@@ -152,7 +152,7 @@ const Game = () => {
     });
 
     setGameState(GameState.Playing);
-    setTilesAnimationDelay(false);
+    setTilesAnimationDelay();
     isResetting.current = false;
   }, []);
 
@@ -183,7 +183,7 @@ const Game = () => {
     setGameState(GameState.Shuffling);
     setAttempts(0);
     setTiles([]);
-    setTimeout(initTiles, TILE_HIDE_DURATION_MAX);
+    setTimeout(initTiles, 10);
     clearTriggerReset();
   }, [applyCssRowColumnSettings, clearTriggerReset, settings.columnCount, settings.rowCount, settings.showShuffle, shuffleTiles, stopShuffling, turnTiles]);
 

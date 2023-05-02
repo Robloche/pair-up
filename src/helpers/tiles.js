@@ -171,9 +171,8 @@ const getTilesByState = (tiles, state) => tiles.filter((tile) => tile.state === 
 
 const getVisibleTiles = (tiles) => getTilesByState(tiles, State.Visible);
 
-const setTilesAnimationDelay = (isRandom = false) => {
-  const tilesElt = document.querySelectorAll('button[data-tile]');
-  tilesElt.forEach((tileElt) => tileElt.style.setProperty('--tile-animation-delay', isRandom ? `${getRandomInteger(TILE_HIDE_DURATION_MIN, TILE_HIDE_DURATION_MAX)}ms` : '0ms'));
+const setTilesAnimationDelay = () => {
+  document.querySelectorAll('button[data-tile]').forEach((tileElt) => tileElt.style.setProperty('--tile-animation-delay', '0ms'));
 };
 
 /*
