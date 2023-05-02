@@ -21,6 +21,7 @@
     height: var(--tile-size);
     outline: 0;
     perspective: 400px;
+    transition: border-color 300ms ease-out;
     user-select: none;
     width: var(--tile-size);
 }
