@@ -6,10 +6,10 @@ import { getVisibleTiles } from '@/helpers/tiles';
 import styles from './Tiles.module.css';
 import useArrowNavigation from '@/hooks/use-arrow-navigation';
 
-const Tiles = ({ showTile, tiles }) => {
+const Tiles = ({ gameState, showTile, tiles }) => {
   const { settings } = React.useContext(SettingsContext);
 
-  useArrowNavigation(settings.rowCount, settings.columnCount, settings.cycle);
+  useArrowNavigation(settings.rowCount, settings.columnCount, settings.cycle, gameState);
 
   return (
     <div className={styles.tilesWrapper}>

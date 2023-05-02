@@ -7,6 +7,7 @@ import styles from './Settings.module.css';
 
 const Settings = ({ onCloseSettings, onSaveSettings, settings }) => {
   const [cycle, setCycle] = React.useState(settings.cycle);
+  const [sound, setSound] = React.useState(settings.sound);
   const [showDiscovered, setShowDiscovered] = React.useState(settings.showDiscovered);
   const [showShuffle, setShowShuffle] = React.useState(settings.showShuffle);
   const [tileBackColor, setTileBackColor] = React.useState(settings.tileBackColor);
@@ -16,6 +17,7 @@ const Settings = ({ onCloseSettings, onSaveSettings, settings }) => {
   const { defaultSettings } = React.useContext(SettingsContext);
 
   const cycleId = React.useId();
+  const soundId = React.useId();
   const showDiscoveredId = React.useId();
   const showShuffleId = React.useId();
   const tileBackColorId = React.useId();
@@ -24,6 +26,10 @@ const Settings = ({ onCloseSettings, onSaveSettings, settings }) => {
 
   const cycleOnChange = React.useCallback((event) => {
     setCycle(event.target.checked);
+  }, []);
+
+  const soundOnChange = React.useCallback((event) => {
+    setSound(event.target.checked);
   }, []);
 
   const showDiscoveredOnChange = React.useCallback((event) => {
@@ -48,16 +54,17 @@ const Settings = ({ onCloseSettings, onSaveSettings, settings }) => {
 
   const resetOnClick = React.useCallback(() => {
     setCycle(defaultSettings.cycle);
+    setSound(defaultSettings.sound);
     setShowDiscovered(defaultSettings.showDiscovered);
     setShowShuffle(defaultSettings.showShuffle);
     setTileBackColor(defaultSettings.tileBackColor);
     setRowCount(defaultSettings.rowCount);
     setColumnCount(defaultSettings.columnCount);
-  }, [defaultSettings.columnCount, defaultSettings.cycle, defaultSettings.rowCount, defaultSettings.showDiscovered, defaultSettings.showShuffle, defaultSettings.tileBackColor]);
+  }, [defaultSettings.columnCount, defaultSettings.cycle, defaultSettings.rowCount, defaultSettings.showDiscovered, defaultSettings.showShuffle, defaultSettings.sound, defaultSettings.tileBackColor]);
 
   const saveOnClick = React.useCallback(() => {
-    onSaveSettings({ columnCount, cycle, rowCount, showDiscovered, showShuffle, tileBackColor });
-  }, [columnCount, cycle, onSaveSettings, rowCount, showDiscovered, showShuffle, tileBackColor]);
+    onSaveSettings({ columnCount, cycle, rowCount, showDiscovered, showShuffle, sound, tileBackColor });
+  }, [columnCount, cycle, onSaveSettings, rowCount, showDiscovered, showShuffle, sound, tileBackColor]);
 
   const isWarningDisplayed = rowCount !== settings.rowCount || columnCount !== settings.columnCount;
 
@@ -70,6 +77,10 @@ const Settings = ({ onCloseSettings, onSaveSettings, settings }) => {
               Keyboard navigation cycling:
             </label>
             <input checked={cycle} id={cycleId} onChange={cycleOnChange} type='checkbox' />
+            <label htmlFor={soundId} className={styles.label}>
+              Enable sound:
+            </label>
+            <input checked={sound} id={soundId} onChange={soundOnChange} type='checkbox' />
             <label htmlFor={showDiscoveredId}>Show already discovered tiles:</label>
             <input checked={showDiscovered} id={showDiscoveredId} onChange={showDiscoveredOnChange} type='checkbox' />
             <label htmlFor={showShuffleId}>Show shuffling animation:</label>

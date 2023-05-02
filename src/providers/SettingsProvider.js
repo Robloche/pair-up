@@ -12,6 +12,7 @@ const DEFAULT_SETTINGS = Object.freeze({
   rowCount: 4,
   showDiscovered: false,
   showShuffle: true,
+  sound: true,
   tileBackColor: '#666666',
 });
 

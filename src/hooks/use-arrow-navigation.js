@@ -1,4 +1,6 @@
 import React from 'react';
+import { GameState } from '@/helpers/types';
+import { SettingsContext } from '@/providers/SettingsProvider';
 
 const getTileLeftward = (activeElt, count = 1) => {
   let elt = activeElt;
@@ -32,12 +34,15 @@ const getTileDownward = (activeElt, columnCount, count = 1) => {
   return elt;
 };
 
-const useArrowNavigation = (rowCount, columnCount, cycle) => {
+const useArrowNavigation = (rowCount, columnCount, cycle, gameState) => {
+  const { settings } = React.useContext(SettingsContext);
+  const audioMove = React.useMemo(() => new Audio('/sounds/keyboard-move-full.m4a'), []);
+
   const handleOnKeydown = React.useCallback(
     (event) => {
       const { code } = event;
 
-      if (!['ArrowUp', 'ArrowRight', 'ArrowDown', 'ArrowLeft'].includes(code)) {
+      if (gameState !== GameState.Playing || !['ArrowUp', 'ArrowRight', 'ArrowDown', 'ArrowLeft'].includes(code)) {
         return;
       }
 
@@ -50,6 +55,10 @@ const useArrowNavigation = (rowCount, columnCount, cycle) => {
       const activeId = Number(activeElt.id);
 
       event.preventDefault();
+
+      if (settings.sound) {
+        audioMove.play();
+      }
 
       if (code === 'ArrowUp') {
         // Up
@@ -85,7 +94,7 @@ const useArrowNavigation = (rowCount, columnCount, cycle) => {
         }
       }
     },
-    [columnCount, cycle, rowCount]
+    [audioMove, columnCount, cycle, gameState, rowCount, settings.sound]
   );
 
   React.useEffect(() => {
