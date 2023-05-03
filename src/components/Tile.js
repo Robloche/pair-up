@@ -5,14 +5,14 @@ import styles from './Tile.module.css';
 import { getRandomInteger } from '@/helpers/math';
 import { TILE_HIDE_DURATION_MAX, TILE_HIDE_DURATION_MIN } from '@/helpers/constants';
 
-const Tile = ({ showTile, tile, ...rest }) => {
+const Tile = ({ disabled, showTile, tile, ...rest }) => {
   const {
-    settings: { showDiscovered },
+    settings: { showDiscovered, showShuffle },
   } = React.useContext(SettingsContext);
   const tileRef = React.useRef();
 
   const handleOnClick = () => {
-    if (tile.state === State.Visible || tile.state === State.Found) {
+    if (tile.state === State.Visible || tile.state === State.Found || disabled) {
       return;
     }
 
@@ -20,8 +20,8 @@ const Tile = ({ showTile, tile, ...rest }) => {
   };
 
   React.useEffect(() => {
-    tileRef.current?.style.setProperty('--tile-animation-delay', `${getRandomInteger(TILE_HIDE_DURATION_MIN, TILE_HIDE_DURATION_MAX)}ms`);
-  }, []);
+    tileRef.current?.style.setProperty('--tile-animation-delay', showShuffle ? `${getRandomInteger(TILE_HIDE_DURATION_MIN, TILE_HIDE_DURATION_MAX)}ms` : '0ms');
+  }, [showShuffle]);
 
   return (
     <button

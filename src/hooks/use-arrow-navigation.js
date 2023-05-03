@@ -1,6 +1,5 @@
 import React from 'react';
 import { GameState } from '@/helpers/types';
-import { SettingsContext } from '@/providers/SettingsProvider';
 import useSound from '@/hooks/use-sound';
 
 const getTileLeftward = (activeElt, count = 1) => {
@@ -36,7 +35,6 @@ const getTileDownward = (activeElt, columnCount, count = 1) => {
 };
 
 const useArrowNavigation = (rowCount, columnCount, cycle, gameState) => {
-  const { settings } = React.useContext(SettingsContext);
   const { playMove } = useSound();
 
   const handleOnKeydown = React.useCallback(

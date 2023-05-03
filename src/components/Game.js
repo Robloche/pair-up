@@ -17,6 +17,7 @@ import { SettingsContext } from '@/providers/SettingsProvider';
 import Tiles from '@/components/Tiles';
 import { checkUpdateHighScore } from '@/helpers/score';
 import { getRandomInteger } from '@/helpers/math';
+import { produce } from 'immer';
 import restartIcon from '../assets/restart.svg';
 import settingsIcon from '../assets/settings.svg';
 import styles from './Game.module.css';
@@ -35,55 +36,74 @@ const Game = () => {
 
   const tileCount = settings.rowCount * settings.columnCount;
   const missed = attempts - getFoundTiles(tiles).length / 2;
+  const visibleTileCount = getVisibleTiles(tiles).length;
 
   const hideTiles = React.useCallback((hideFound = false) => {
-    setTiles((tiles) =>
-      tiles.map((t) => ({
-        ...t,
-        state: hideFound || t.state === State.Visible ? State.Hidden : t.state,
-      }))
+    setTiles(
+      produce((draft) => {
+        draft.forEach((tile) => (tile.state = hideFound || tile.state === State.Visible ? State.Hidden : tile.state));
+      })
     );
   }, []);
+
+  React.useEffect(() => {
+    if (visibleTileCount === 2) {
+      setTimeout(hideTiles, ALL_TILES_HIDE_DURATION);
+    }
+  }, [hideTiles, visibleTileCount]);
 
   const showTile = React.useCallback(
     (index, isHint) => {
       playTileTurn();
 
-      const newTiles = [...tiles];
-      newTiles[index].state = State.Visible;
-      newTiles[index].discovered = true;
+      setTiles(
+        produce((draft) => {
+          draft[index].state = State.Visible;
+          draft[index].discovered = true;
+        })
+      );
 
-      const visibleTiles = getVisibleTiles(tiles);
+      const firstTurnedTile = tiles.find((tile) => tile.state === State.Visible);
 
-      if (visibleTiles.length === 2) {
-        if (!isHint) {
-          setAttempts(attempts + 1);
-        }
-        if (!isHint && visibleTiles[0].char === visibleTiles[1].char) {
-          // Pair found
-          playFound();
-          newTiles[visibleTiles[0].index].state = State.Found;
-          newTiles[visibleTiles[1].index].state = State.Found;
-
-          // Check end
-          if (getFoundTiles(tiles).length === tileCount) {
-            // Game is finished (attempts + 1 since it hasn't been updated yet)
-            if (checkUpdateHighScore(settings.rowCount, settings.columnCount, attempts + 1, missed)) {
-              setGameState(GameState.FinishedHighScore);
-            } else {
-              setGameState(GameState.Finished);
-            }
-          }
-        } else {
-          // Missed
-          playMiss();
-          setTimeout(hideTiles, ALL_TILES_HIDE_DURATION);
-        }
+      if (!firstTurnedTile) {
+        // First turned tile
+        return;
       }
 
-      setTiles(newTiles);
+      if (isHint) {
+        // Hint shown
+        return;
+      }
+
+      // 2 tiles have been turned
+      setAttempts(attempts + 1);
+
+      if (tiles[index].char === firstTurnedTile.char) {
+        // Pair found
+        playFound();
+
+        setTiles(
+          produce((draft) => {
+            draft[index].state = State.Found;
+            draft[firstTurnedTile.index].state = State.Found;
+          })
+        );
+
+        // Check end (-2 because last pair is not persisted yet)
+        if (getFoundTiles(tiles).length === tileCount - 2) {
+          // Game is finished (attempts + 1 since it hasn't been updated yet)
+          if (checkUpdateHighScore(settings.rowCount, settings.columnCount, attempts + 1, missed)) {
+            setGameState(GameState.FinishedHighScore);
+          } else {
+            setGameState(GameState.Finished);
+          }
+        }
+      } else {
+        // Missed
+        playMiss();
+      }
     },
-    [attempts, hideTiles, missed, playFound, playMiss, playTileTurn, settings.columnCount, settings.rowCount, tileCount, tiles]
+    [attempts, missed, playFound, playMiss, playTileTurn, settings.columnCount, settings.rowCount, tileCount, tiles]
   );
 
   const showHint = React.useCallback(() => {
@@ -101,29 +121,33 @@ const Game = () => {
     showTile(j, true);
   }, [showTile, tiles]);
 
-  const solve = React.useCallback(
-    (solvingTiles = null) => {
-      const newTiles = [...(solvingTiles ?? tiles)];
+  const solve = React.useCallback(() => setGameState(GameState.Solving), []);
 
-      const i = findHiddenTileIndex(newTiles, 0, null);
-      const j = findHiddenTileIndex(newTiles, i + 1, newTiles[i].char);
-      if (j === null) {
-        return null;
-      }
-
-      newTiles[i].state = State.Found;
-      newTiles[j].state = State.Found;
-      setTiles(newTiles);
-      setAttempts((attempts) => attempts + 1);
-
-      if (newTiles.every(({ state }) => state === State.Found)) {
+  React.useEffect(() => {
+    if (gameState === GameState.Solving) {
+      if (tiles.every(({ state }) => state === State.Found)) {
+        // Game solved
+        setGameState(GameState.Playing);
         return;
       }
 
-      setTimeout(() => solve(newTiles), getRandomInteger(SOLVE_INTERVAL_MIN, SOLVE_INTERVAL_MAX));
-    },
-    [tiles]
-  );
+      setTimeout(() => {
+        const i = findHiddenTileIndex(tiles, 0, null);
+        const j = findHiddenTileIndex(tiles, i + 1, tiles[i].char);
+        if (j === null) {
+          return;
+        }
+
+        setAttempts((attempts) => attempts + 1);
+        setTiles(
+          produce((draft) => {
+            draft[i].state = State.Found;
+            draft[j].state = State.Found;
+          })
+        );
+      }, getRandomInteger(SOLVE_INTERVAL_MIN, SOLVE_INTERVAL_MAX));
+    }
+  }, [gameState, tiles]);
 
   React.useEffect(() => {
     window.dbgHideTiles = hideTiles;
@@ -132,16 +156,12 @@ const Game = () => {
   }, [hideTiles, showHint, solve]);
 
   const shuffleTiles = React.useCallback(() => {
-    setTiles((tiles) => shuffleArray([...tiles]));
+    setTiles(produce((draft) => shuffleArray(draft)));
     shuffleTimeoutId.current = setTimeout(shuffleTiles, TILES_SHUFFLE_ROUND_DELAY_DURATION);
   }, []);
 
   const turnTiles = React.useCallback(() => {
-    setTiles((tiles) => {
-      const newTiles = [...tiles];
-      newTiles.forEach((tile) => (tile.state = State.Hidden));
-      return newTiles;
-    });
+    setTiles(produce((draft) => draft.forEach((tile) => (tile.state = State.Hidden))));
   }, []);
 
   const stopShuffling = React.useCallback(() => {
@@ -149,12 +169,8 @@ const Game = () => {
       clearTimeout(shuffleTimeoutId.current);
     }
 
-    // Reset indices
-    setTiles((tiles) => {
-      const newTiles = [...tiles];
-      newTiles.forEach((tile, i) => (tile.index = i));
-      return newTiles;
-    });
+    // Reset indices after shuffle
+    setTiles(produce((draft) => draft.forEach((tile, i) => (tile.index = i))));
 
     setGameState(GameState.Playing);
     setTilesAnimationDelay();
@@ -180,7 +196,7 @@ const Game = () => {
       } else {
         // Skip shuffling animation
         turnTiles();
-        setTiles((tiles) => shuffleArray([...tiles]));
+        setTiles(produce((draft) => shuffleArray(draft)));
         stopShuffling();
       }
     };

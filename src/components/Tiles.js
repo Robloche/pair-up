@@ -11,16 +11,18 @@ const Tiles = ({ gameState, showTile, tiles }) => {
 
   useArrowNavigation(settings.rowCount, settings.columnCount, settings.cycle, gameState);
 
+  const isDisabled = getVisibleTiles(tiles).length === 2;
+
   return (
     <div className={styles.tilesWrapper}>
       <Flipper className={styles.tilesWrapper} flipKey={tiles.map((tile) => tile.key).join('')} spring='gentle'>
         {tiles.map((tile) => (
           <Flipped key={tile.key} flipId={tile.key}>
-            <Tile showTile={showTile} tile={tile} />
+            <Tile disabled={isDisabled} showTile={showTile} tile={tile} />
           </Flipped>
         ))}
       </Flipper>
-      {getVisibleTiles(tiles).length === 2 && <div className={styles.lockMask} />}
+      {isDisabled && <div className={styles.lockMask} />}
     </div>
   );
 };

@@ -151,9 +151,6 @@ const initializeTiles = (rowCount, columnCount) => {
   const emojiPairs = [];
   emojis.forEach((emoji) => emojiPairs.push(emoji, emoji));
 
-  // Shuffle chosen tiles
-  //shuffleArray(tiles);
-
   return emojiPairs.map((emoji, i) => ({
     index: i,
     char: emoji,
@@ -180,9 +177,7 @@ const setTilesAnimationDelay = () => {
  * Implementation of Fischer-Yates algorithm
  */
 const shuffleArray = (array) => {
-  const { length } = array;
-
-  for (let i = length - 1; i > 0; i--) {
+  for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [array[i], array[j]] = [array[j], array[i]];
   }

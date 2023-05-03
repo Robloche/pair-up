@@ -1,8 +1,9 @@
 export const GameState = Object.freeze({
   Shuffling: 0,
-  Playing: 1,
-  Finished: 2,
-  FinishedHighScore: 3,
+  Solving: 1,
+  Playing: 2,
+  Finished: 3,
+  FinishedHighScore: 4,
 });
 
 export const State = Object.freeze({
