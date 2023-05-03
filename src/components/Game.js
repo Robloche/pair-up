@@ -20,6 +20,7 @@ import { getRandomInteger } from '@/helpers/math';
 import restartIcon from '../assets/restart.svg';
 import settingsIcon from '../assets/settings.svg';
 import styles from './Game.module.css';
+import useSound from '@/hooks/use-sound';
 
 const Game = () => {
   const [attempts, setAttempts] = React.useState(0);
@@ -30,13 +31,10 @@ const Game = () => {
   const turnTilesTimeoutId = React.useRef(null);
   const stopShufflingTimeoutId = React.useRef(null);
   const isResetting = React.useRef(false);
+  const { playFound, playMiss, playTileTurn } = useSound();
 
   const tileCount = settings.rowCount * settings.columnCount;
   const missed = attempts - getFoundTiles(tiles).length / 2;
-
-  const audioTileTurn = React.useMemo(() => new Audio('/sounds/tile-turn-full.m4a'), []);
-  const audioMiss = React.useMemo(() => new Audio('/sounds/miss-full.m4a'), []);
-  const audioFound = React.useMemo(() => new Audio('/sounds/found-full.m4a'), []);
 
   const hideTiles = React.useCallback((hideFound = false) => {
     setTiles((tiles) =>
@@ -49,9 +47,7 @@ const Game = () => {
 
   const showTile = React.useCallback(
     (index, isHint) => {
-      if (settings.sound) {
-        audioTileTurn.play();
-      }
+      playTileTurn();
 
       const newTiles = [...tiles];
       newTiles[index].state = State.Visible;
@@ -65,10 +61,7 @@ const Game = () => {
         }
         if (!isHint && visibleTiles[0].char === visibleTiles[1].char) {
           // Pair found
-          if (settings.sound) {
-            audioFound.play();
-          }
-
+          playFound();
           newTiles[visibleTiles[0].index].state = State.Found;
           newTiles[visibleTiles[1].index].state = State.Found;
 
@@ -83,17 +76,14 @@ const Game = () => {
           }
         } else {
           // Missed
-          if (settings.sound) {
-            audioMiss.play();
-          }
-
+          playMiss();
           setTimeout(hideTiles, ALL_TILES_HIDE_DURATION);
         }
       }
 
       setTiles(newTiles);
     },
-    [attempts, audioFound, audioMiss, audioTileTurn, hideTiles, missed, settings.columnCount, settings.rowCount, settings.sound, tileCount, tiles]
+    [attempts, hideTiles, missed, playFound, playMiss, playTileTurn, settings.columnCount, settings.rowCount, tileCount, tiles]
   );
 
   const showHint = React.useCallback(() => {

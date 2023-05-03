@@ -1,6 +1,7 @@
 import React from 'react';
 import { GameState } from '@/helpers/types';
 import { SettingsContext } from '@/providers/SettingsProvider';
+import useSound from '@/hooks/use-sound';
 
 const getTileLeftward = (activeElt, count = 1) => {
   let elt = activeElt;
@@ -36,7 +37,7 @@ const getTileDownward = (activeElt, columnCount, count = 1) => {
 
 const useArrowNavigation = (rowCount, columnCount, cycle, gameState) => {
   const { settings } = React.useContext(SettingsContext);
-  const audioMove = React.useMemo(() => new Audio('/sounds/keyboard-move-full.m4a'), []);
+  const { playMove } = useSound();
 
   const handleOnKeydown = React.useCallback(
     (event) => {
@@ -56,9 +57,7 @@ const useArrowNavigation = (rowCount, columnCount, cycle, gameState) => {
 
       event.preventDefault();
 
-      if (settings.sound) {
-        audioMove.play();
-      }
+      playMove();
 
       if (code === 'ArrowUp') {
         // Up
@@ -94,7 +93,7 @@ const useArrowNavigation = (rowCount, columnCount, cycle, gameState) => {
         }
       }
     },
-    [audioMove, columnCount, cycle, gameState, rowCount, settings.sound]
+    [columnCount, cycle, gameState, playMove, rowCount]
   );
 
   React.useEffect(() => {
