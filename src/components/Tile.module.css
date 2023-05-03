@@ -31,10 +31,6 @@
     cursor: default;
 }
 
-.tileWrapper.visible {
-    border: 4px solid var(--accent-color);
-}
-
 .innerTile {
     border-radius: var(--border-radius-m);
     height: 100%;
@@ -70,9 +66,9 @@
     border: 4px dashed var(--transparent-20);
 }
 
-/* Button focus when navigating with arrow keys */
-.tileWrapper:focus-visible {
-    border: 4px solid #fff;
+/* Tile turned by player */
+.tileWrapper.visible {
+    border: 4px solid var(--accent-color);
 }
 
 /* Showing emoji */
@@ -88,17 +84,30 @@
     cursor: default;
 }
 
-.hover {
-    background-color: #FFF;
+.tileWrapper .hover,
+.tileWrapper .focused {
     border-radius: var(--border-radius-m);
-    left: 0;
     height: 100%;
+    left: 0;
     opacity: 0;
     position: absolute;
     top: 0;
     width: 100%;
 }
 
+.tileWrapper .hover {
+    background-color: #FFF;
+}
+
 .tileWrapper.hidden:not(:disabled):hover .hover {
     opacity: .3;
+}
+
+.tileWrapper .focused {
+    border: 4px solid #FFF;
+}
+
+/* Button focus when navigating with arrow keys */
+.tileWrapper:focus-visible .focused {
+    opacity: 1;
 }

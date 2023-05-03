@@ -37,6 +37,7 @@ const Tile = ({ showTile, tile, ...rest }) => {
         <div className={styles.back} />
       </div>
       <div className={styles.hover} />
+      <div className={styles.focused} />
     </button>
   );
 };
