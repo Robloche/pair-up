@@ -70,7 +70,7 @@ const Settings = ({ onCloseSettings, onSaveSettings, settings }) => {
 
   return (
     <FocusLock className={styles.settingsWrapper} returnFocus>
-      <div className={styles.modal}>
+      <div aria-label='Settings' aria-modal className={styles.modal} role='dialog'>
         <div className={styles.content}>
           <label htmlFor={cycleId} className={styles.label}>
             Keyboard navigation cycling:

@@ -11,7 +11,7 @@ const Banner = ({ attempts, isHighScore, missed, onReset }) => {
   const highScore = getHighScore(rowCount, columnCount);
 
   return (
-    <FocusLock className={styles.bannerWrapper} returnFocus>
+    <FocusLock aria-label='End banner' aria-modal className={styles.bannerWrapper} returnFocus role='dialog'>
       <p>
         You found <span className={styles.number}>{(rowCount * columnCount) / 2}</span> pairs in <span className={styles.number}>{attempts}</span> attempt{attempts > 1 ? 's' : ''} and missed{' '}
         <span className={styles.number}>{missed}</span> time
