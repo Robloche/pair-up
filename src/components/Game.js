@@ -234,13 +234,15 @@ const Game = () => {
         <Banner attempts={attempts} isHighScore={gameState === GameState.FinishedHighScore} missed={missed} onReset={reset} />
       )}
       <div className={styles.gameWrapper}>
-        <button className={styles.iconBtn} onClick={openSettings}>
-          <Image alt='Settings icon' src={settingsIcon} />
-        </button>
-        <button className={`${styles.iconBtn} ${styles.restartBtn}`} onClick={reset}>
-          <Image alt='Restart icon' src={restartIcon} />
-        </button>
-        <Score attempts={attempts} missed={missed} />
+        <div className={styles.header}>
+          <Score attempts={attempts} missed={missed} />
+          <button className={`${styles.iconBtn} ${styles.settingsBtn}`} onClick={openSettings}>
+            <Image alt='Settings icon' src={settingsIcon} />
+          </button>
+          <button className={`${styles.iconBtn} ${styles.restartBtn}`} onClick={reset}>
+            <Image alt='Restart icon' src={restartIcon} />
+          </button>
+        </div>
         <Tiles gameState={gameState} showTile={showTile} tiles={tiles} />
       </div>
     </>

@@ -8,18 +8,27 @@
     row-gap: var(--padding-l);
 }
 
+.gameWrapper .header {
+    position: relative;
+}
+
 .iconBtn {
     border: 0;
     background-color: var(--transparent-10);
     border-radius: var(--border-radius-s);
     cursor: pointer;
-    padding: var(--padding-s);
+    height: var(--icon-btn-size);
     position: absolute;
-    right: 6rem;
+    right: calc((var(--icon-btn-size) + 8px) * -1);
+    width: var(--icon-btn-size);
+}
+
+.settingsBtn {
+    top: calc(50% - var(--icon-btn-size) - 4px);
 }
 
 .restartBtn {
-    margin-top: 2.8rem;
+    top: calc(50% + 4px);
 }
 
 .iconBtn img {
