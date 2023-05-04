@@ -1,3 +1,4 @@
+import FocusLock from 'react-focus-lock';
 import React from 'react';
 import { SettingsContext } from '@/providers/SettingsProvider';
 import { getHighScore } from '@/helpers/score';
@@ -10,7 +11,7 @@ const Banner = ({ attempts, isHighScore, missed, onReset }) => {
   const highScore = getHighScore(rowCount, columnCount);
 
   return (
-    <div className={styles.bannerWrapper}>
+    <FocusLock className={styles.bannerWrapper} returnFocus>
       <p>
         You found <span className={styles.number}>{(rowCount * columnCount) / 2}</span> pairs in <span className={styles.number}>{attempts}</span> attempt{attempts > 1 ? 's' : ''} and missed{' '}
         <span className={styles.number}>{missed}</span> time
@@ -31,7 +32,7 @@ const Banner = ({ attempts, isHighScore, missed, onReset }) => {
       <button className='action' onClick={onReset}>
         Play Again
       </button>
-    </div>
+    </FocusLock>
   );
 };
 

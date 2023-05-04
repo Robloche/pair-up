@@ -69,48 +69,46 @@ const Settings = ({ onCloseSettings, onSaveSettings, settings }) => {
   const isWarningDisplayed = rowCount !== settings.rowCount || columnCount !== settings.columnCount;
 
   return (
-    <FocusLock>
-      <div className={styles.settingsWrapper}>
-        <div className={styles.modal}>
-          <div className={styles.content}>
-            <label htmlFor={cycleId} className={styles.label}>
-              Keyboard navigation cycling:
-            </label>
-            <input checked={cycle} id={cycleId} onChange={cycleOnChange} type='checkbox' />
-            <label htmlFor={soundId} className={styles.label}>
-              Enable sound:
-            </label>
-            <input checked={sound} id={soundId} onChange={soundOnChange} type='checkbox' />
-            <label htmlFor={showDiscoveredId}>Show already discovered tiles:</label>
-            <input checked={showDiscovered} id={showDiscoveredId} onChange={showDiscoveredOnChange} type='checkbox' />
-            <label htmlFor={showShuffleId}>Show shuffling animation:</label>
-            <input checked={showShuffle} id={showShuffleId} onChange={showShuffleOnChange} type='checkbox' />
-            <label htmlFor={tileBackColorId}>Back color of tiles:</label>
-            <input id={tileBackColorId} onChange={tileBackColorOnChange} type='color' value={tileBackColor} />
-            <label className={styles.fullRow} htmlFor={rowId}>
-              Number of rows:
-            </label>
-            <input id={rowId} max={10} min={1} onChange={rowCountOnChange} type='range' value={rowCount} />
-            <span className={styles.count}>{rowCount}</span>
-            <label className={styles.fullRow} htmlFor={columnId}>
-              Number of columns:
-            </label>
-            <input id={columnId} max={10} min={1} onChange={columnCountOnChange} type='range' value={columnCount} />
-            <span className={styles.count}>{columnCount}</span>
-          </div>
-          <div className={styles.buttons}>
-            <button className={`action ${styles.resetButton}`} onClick={resetOnClick}>
-              Reset
-            </button>
-            <button className={`action ${styles.saveButton}`} disabled={(rowCount * columnCount) % 2 > 0} onClick={saveOnClick}>
-              Save & Close
-            </button>
-          </div>
-          {isWarningDisplayed && <div className={styles.warning}>(Changing rows or columns will start a new game.)</div>}
-          <button className={styles.closeBtn} onClick={onCloseSettings}>
-            <Image alt='Close icon' src={closeIcon} />
+    <FocusLock className={styles.settingsWrapper} returnFocus>
+      <div className={styles.modal}>
+        <div className={styles.content}>
+          <label htmlFor={cycleId} className={styles.label}>
+            Keyboard navigation cycling:
+          </label>
+          <input checked={cycle} id={cycleId} onChange={cycleOnChange} type='checkbox' />
+          <label htmlFor={soundId} className={styles.label}>
+            Enable sound:
+          </label>
+          <input checked={sound} id={soundId} onChange={soundOnChange} type='checkbox' />
+          <label htmlFor={showDiscoveredId}>Show already discovered tiles:</label>
+          <input checked={showDiscovered} id={showDiscoveredId} onChange={showDiscoveredOnChange} type='checkbox' />
+          <label htmlFor={showShuffleId}>Show shuffling animation:</label>
+          <input checked={showShuffle} id={showShuffleId} onChange={showShuffleOnChange} type='checkbox' />
+          <label htmlFor={tileBackColorId}>Back color of tiles:</label>
+          <input id={tileBackColorId} onChange={tileBackColorOnChange} type='color' value={tileBackColor} />
+          <label className={styles.fullRow} htmlFor={rowId}>
+            Number of rows:
+          </label>
+          <input id={rowId} max={10} min={1} onChange={rowCountOnChange} type='range' value={rowCount} />
+          <span className={styles.count}>{rowCount}</span>
+          <label className={styles.fullRow} htmlFor={columnId}>
+            Number of columns:
+          </label>
+          <input id={columnId} max={10} min={1} onChange={columnCountOnChange} type='range' value={columnCount} />
+          <span className={styles.count}>{columnCount}</span>
+        </div>
+        <div className={styles.buttons}>
+          <button className={`action ${styles.resetButton}`} onClick={resetOnClick}>
+            Reset
+          </button>
+          <button className={`action ${styles.saveButton}`} disabled={(rowCount * columnCount) % 2 > 0} onClick={saveOnClick}>
+            Save & Close
           </button>
         </div>
+        {isWarningDisplayed && <div className={styles.warning}>(Changing rows or columns will start a new game.)</div>}
+        <button className={styles.closeBtn} onClick={onCloseSettings}>
+          <Image alt='Close icon' src={closeIcon} />
+        </button>
       </div>
     </FocusLock>
   );

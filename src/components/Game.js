@@ -124,29 +124,31 @@ const Game = () => {
   const solve = React.useCallback(() => setGameState(GameState.Solving), []);
 
   React.useEffect(() => {
-    if (gameState === GameState.Solving) {
-      if (tiles.every(({ state }) => state === State.Found)) {
-        // Game solved
-        setGameState(GameState.Playing);
+    if (gameState !== GameState.Solving) {
+      return;
+    }
+
+    if (tiles.every(({ state }) => state === State.Found)) {
+      // Game solved
+      setGameState(GameState.Playing);
+      return;
+    }
+
+    setTimeout(() => {
+      const i = findHiddenTileIndex(tiles, 0, null);
+      const j = findHiddenTileIndex(tiles, i + 1, tiles[i].char);
+      if (j === null) {
         return;
       }
 
-      setTimeout(() => {
-        const i = findHiddenTileIndex(tiles, 0, null);
-        const j = findHiddenTileIndex(tiles, i + 1, tiles[i].char);
-        if (j === null) {
-          return;
-        }
-
-        setAttempts((attempts) => attempts + 1);
-        setTiles(
-          produce((draft) => {
-            draft[i].state = State.Found;
-            draft[j].state = State.Found;
-          })
-        );
-      }, getRandomInteger(SOLVE_INTERVAL_MIN, SOLVE_INTERVAL_MAX));
-    }
+      setAttempts((attempts) => attempts + 1);
+      setTiles(
+        produce((draft) => {
+          draft[i].state = State.Found;
+          draft[j].state = State.Found;
+        })
+      );
+    }, getRandomInteger(SOLVE_INTERVAL_MIN, SOLVE_INTERVAL_MAX));
   }, [gameState, tiles]);
 
   React.useEffect(() => {
