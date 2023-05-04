@@ -2,9 +2,9 @@ const SCORES_KEY = 'high-scores';
 
 const buildKey = (rowCount, columnCount) => `${rowCount}x${columnCount}`;
 
-const saveHighScore = (rowCount, columnCount, attempts, missed) => {
+const saveHighScore = (rowCount, columnCount, attempts, missed, playerName) => {
   const highScores = loadHighScores() ?? {};
-  highScores[buildKey(rowCount, columnCount)] = `${attempts}:${missed}`;
+  highScores[buildKey(rowCount, columnCount)] = `${playerName}:${attempts}:${missed}`;
   saveHighScores(highScores);
 };
 
@@ -53,15 +53,16 @@ const getHighScore = (rowCount, columnCount) => {
     return null;
   }
 
-  const [attempts, missed] = highScore.split(':');
-  return { attempts, missed };
+  const [playerName, attempts, missed] = highScore.split(':');
+  return { attempts, missed, playerName };
 };
 
 const checkUpdateHighScore = (rowCount, columnCount, attempts, missed) => {
   const highScore = getHighScore(rowCount, columnCount);
 
   if (highScore === null || attempts < highScore.attempts || (attempts === highScore.attempts && missed < highScore.missed)) {
-    saveHighScore(rowCount, columnCount, attempts, missed);
+    const playerName = prompt('Please enter your name');
+    saveHighScore(rowCount, columnCount, attempts, missed, playerName || 'John Doe');
     return true;
   }
 

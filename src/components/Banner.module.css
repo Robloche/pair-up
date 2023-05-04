@@ -28,11 +28,20 @@
     color: var(--transparent-50);
     font-size: 2.6rem;
     font-weight: normal;
+    margin-left: var(--margin-s);
 }
 
 .bannerWrapper .highScore {
     color: var(--transparent-50);
     font-size: 1.8rem;
+}
+
+.bannerWrapper .highScore .name {
+    background-color: var(--transparent-10);
+    border-radius: var(--border-radius-l);
+    color: #FFF;
+    margin-left: var(--margin-s);
+    padding: var(--border-radius-s) var(--border-radius-l);
 }
 
 .bannerWrapper button {

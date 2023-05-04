@@ -22,7 +22,7 @@ const Banner = ({ attempts, isHighScore, missed, onReset }) => {
           'New High Score!'
         ) : (
           <>
-            High Score:{' '}
+            High Score by <span className={styles.name}>{highScore.playerName}</span>:{' '}
             <span className={styles.number}>
               {highScore.attempts} &#8211; {highScore.missed}
             </span>

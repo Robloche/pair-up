@@ -51,7 +51,7 @@ body {
 
 body {
   background-color: #000;
-  color: #fff;
+  color: #FFF;
 }
 
 h1 {
@@ -73,7 +73,7 @@ button {
 }
 
 button.action {
-  background-color: #fff;
+  background-color: #FFF;
   border: 0;
   border-radius: var(--border-radius-s);
   color: #000;
