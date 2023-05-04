@@ -1,3 +1,4 @@
+import { clearHighScores, getHighScoreCount } from '@/helpers/score';
 import FocusLock from 'react-focus-lock';
 import Image from 'next/image';
 import React from 'react';
@@ -13,6 +14,7 @@ const Settings = ({ onCloseSettings, onSaveSettings, settings }) => {
   const [tileBackColor, setTileBackColor] = React.useState(settings.tileBackColor);
   const [rowCount, setRowCount] = React.useState(settings.rowCount);
   const [columnCount, setColumnCount] = React.useState(settings.columnCount);
+  const [highScoreCount, setHighScoreCount] = React.useState(() => getHighScoreCount());
 
   const { defaultSettings } = React.useContext(SettingsContext);
 
@@ -50,6 +52,11 @@ const Settings = ({ onCloseSettings, onSaveSettings, settings }) => {
 
   const columnCountOnChange = React.useCallback((event) => {
     setColumnCount(Number(event.target.value));
+  }, []);
+
+  const clearHighScoresOnClick = React.useCallback(() => {
+    clearHighScores();
+    setHighScoreCount(0);
   }, []);
 
   const resetOnClick = React.useCallback(() => {
@@ -97,14 +104,19 @@ const Settings = ({ onCloseSettings, onSaveSettings, settings }) => {
           <input id={columnId} max={10} min={1} onChange={columnCountOnChange} type='range' value={columnCount} />
           <span className={styles.count}>{columnCount}</span>
         </div>
-        <div className={styles.buttons}>
-          <button className={`action ${styles.resetButton}`} onClick={resetOnClick}>
+        <div className={styles.dangerZone}>
+          <div>Reset all settings</div>
+          <button className={`action ${styles.reset}`} onClick={resetOnClick}>
             Reset
           </button>
-          <button className={`action ${styles.saveButton}`} disabled={(rowCount * columnCount) % 2 > 0} onClick={saveOnClick}>
-            Save & Close
+          <div>Clear high scores ({highScoreCount})</div>
+          <button className={`action ${styles.reset}`} disabled={highScoreCount === 0} onClick={clearHighScoresOnClick}>
+            Clear
           </button>
         </div>
+        <button className={`action ${styles.saveButton}`} disabled={(rowCount * columnCount) % 2 > 0} onClick={saveOnClick}>
+          Save & Close
+        </button>
         {isWarningDisplayed && <div className={styles.warning}>(Changing rows or columns will start a new game.)</div>}
         <button className={styles.closeBtn} onClick={onCloseSettings}>
           <Image alt='Close icon' src={closeIcon} />

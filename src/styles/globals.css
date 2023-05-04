@@ -79,7 +79,6 @@ button.action {
   color: #000;
   cursor: pointer;
   font-weight: bold;
-  margin-top: var(--margin-l);
   padding: var(--padding-m);
 }
 
