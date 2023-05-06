@@ -1,19 +1,17 @@
-.noHighScore {
-
+.highScore {
+    align-items: center;
+    display: flex;
 }
 
 .label {
-
+    color: var(--transparent-50);
+    font-size: .7rem;
 }
 
-.playerName {
+.highScore .playerName {
     background-color: var(--transparent-80);
     border-radius: var(--border-radius-s);
     color: #000;
     margin-inline: var(--margin-s);
     padding: var(--padding-xs) var(--padding-s);
-}
-
-.number {
-
 }

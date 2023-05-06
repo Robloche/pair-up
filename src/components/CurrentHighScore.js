@@ -8,14 +8,14 @@ const CurrentHighScore = () => {
   const highScore = getHighScore(settings.rowCount, settings.columnCount);
 
   if (!highScore) {
-    return <div className={styles.noHighScore}>No high score yet!</div>;
+    return <div className={styles.label}>No high score yet!</div>;
   }
 
   return (
-    <div>
+    <div className={styles.highScore}>
       <span className={styles.label}>HIGH SCORE:</span>
       <span className={styles.playerName}>{highScore.playerName}</span>
-      <span className={styles.number}>
+      <span>
         {highScore.attempts} &#8211; {highScore.missed}
       </span>
     </div>
