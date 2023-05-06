@@ -8,20 +8,20 @@ import {
   VISIBLE_TILES_SHUFFLING_DURATION,
 } from '@/helpers/constants';
 import { GameState, State } from '@/helpers/types';
+import { checkHighScore, saveHighScore } from '@/helpers/score';
 import { findHiddenTileIndex, getFoundTiles, getVisibleTiles, initializeTiles, setTilesAnimationDelay, shuffleArray } from '@/helpers/tiles';
 import Banner from '@/components/Banner';
 import CurrentHighScore from '@/components/CurrentHighScore';
 import Header from '@/components/Header';
+import PlayerNamePrompt from '@/components/PlayerNamePrompt';
 import React from 'react';
 import { SettingsContext } from '@/providers/SettingsProvider';
 import Tiles from '@/components/Tiles';
 import application from '../../package.json';
-import { checkHighScore, saveHighScore } from '@/helpers/score';
 import { getRandomInteger } from '@/helpers/math';
 import { produce } from 'immer';
 import styles from './Game.module.css';
 import useSound from '@/hooks/use-sound';
-import PlayerNamePrompt from '@/components/PlayerNamePrompt';
 
 const Game = () => {
   const [attempts, setAttempts] = React.useState(0);
