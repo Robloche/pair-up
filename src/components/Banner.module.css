@@ -41,7 +41,7 @@
     border-radius: var(--border-radius-l);
     color: #FFF;
     margin-left: var(--margin-s);
-    padding: var(--border-radius-s) var(--border-radius-l);
+    padding: var(--padding-xs) var(--padding-m);
 }
 
 .bannerWrapper button {
