@@ -1,5 +1,5 @@
 :root {
-    --font-family: Helvetica;
+    --font-family: Helvetica, sans-serif;
     --font-size: 14px;
     --padding-xs: 0.2rem;
     --padding-s: 0.5rem;

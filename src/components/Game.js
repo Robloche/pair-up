@@ -15,6 +15,7 @@ import React from 'react';
 import Score from '@/components/Score';
 import { SettingsContext } from '@/providers/SettingsProvider';
 import Tiles from '@/components/Tiles';
+import application from '../../package.json';
 import { checkUpdateHighScore } from '@/helpers/score';
 import { getRandomInteger } from '@/helpers/math';
 import { produce } from 'immer';
@@ -254,6 +255,10 @@ const Game = () => {
         <Banner attempts={attempts} isHighScore={gameState === GameState.FinishedHighScore} missed={missed} onReset={reset} />
       )}
       <div className={styles.gameWrapper}>
+        <div className={styles.titleWrapper}>
+          <h1 className={styles.title}>Pair Up!</h1>
+          <div className={styles.version}>v{application.version}</div>
+        </div>
         <div className={styles.header}>
           <Score attempts={attempts} missed={missed} />
           <button className={`${styles.iconBtn} ${styles.settingsBtn}`} onClick={openSettings}>

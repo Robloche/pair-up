@@ -3,9 +3,25 @@
     display: flex;
     flex-direction: column;
     min-width: 26rem;
-    padding: 6rem;
+    padding: 0 6rem 6rem;
     position: relative;
     row-gap: var(--padding-l);
+}
+
+.gameWrapper .titleWrapper {
+    align-items: flex-end;
+    display: flex;
+    flex-direction: column;
+    margin-top: var(--margin-l);
+}
+
+.gameWrapper .titleWrapper .title {
+    font-size: clamp(2.2rem, 1.8rem + .9vw, 3rem);
+}
+
+.gameWrapper .titleWrapper .version {
+    color: var(--transparent-50);
+    font-size: .8rem;
 }
 
 .gameWrapper .header {
