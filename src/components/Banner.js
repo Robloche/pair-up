@@ -17,18 +17,7 @@ const Banner = ({ attempts, isHighScore, missed, onReset }) => {
         <span className={styles.number}>{missed}</span> time
         {missed > 1 ? 's' : ''}.
       </p>
-      <p className={styles.highScore}>
-        {isHighScore ? (
-          'New High Score!'
-        ) : (
-          <>
-            High Score by <span className={styles.name}>{highScore.playerName}</span>:{' '}
-            <span className={styles.number}>
-              {highScore.attempts} &#8211; {highScore.missed}
-            </span>
-          </>
-        )}
-      </p>
+      {isHighScore && <p className={styles.highScore}>New High Score!</p>}
       <button className='action' onClick={onReset}>
         Play Again
       </button>

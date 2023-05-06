@@ -1,0 +1,19 @@
+.noHighScore {
+
+}
+
+.label {
+
+}
+
+.playerName {
+    background-color: var(--transparent-80);
+    border-radius: var(--border-radius-s);
+    color: #000;
+    margin-inline: var(--margin-s);
+    padding: var(--padding-xs) var(--padding-s);
+}
+
+.number {
+
+}

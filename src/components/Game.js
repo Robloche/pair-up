@@ -10,13 +10,14 @@ import {
 import { GameState, State } from '@/helpers/types';
 import { findHiddenTileIndex, getFoundTiles, getVisibleTiles, initializeTiles, setTilesAnimationDelay, shuffleArray } from '@/helpers/tiles';
 import Banner from '@/components/Banner';
+import CurrentHighScore from '@/components/CurrentHighScore';
 import Image from 'next/image';
 import React from 'react';
 import Score from '@/components/Score';
 import { SettingsContext } from '@/providers/SettingsProvider';
 import Tiles from '@/components/Tiles';
 import application from '../../package.json';
-import { checkUpdateHighScore } from '@/helpers/score';
+import { checkUpdateHighScore, getHighScore } from '@/helpers/score';
 import { getRandomInteger } from '@/helpers/math';
 import { produce } from 'immer';
 import restartIcon from '../assets/restart.svg';
@@ -268,6 +269,7 @@ const Game = () => {
             <Image alt='Restart icon' src={restartIcon} />
           </button>
         </div>
+        <CurrentHighScore />
         <Tiles gameState={gameState} showTile={showTile} tiles={tiles} />
       </div>
     </>

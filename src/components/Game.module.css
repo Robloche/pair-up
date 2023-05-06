@@ -5,7 +5,7 @@
     min-width: 26rem;
     padding: 0 6rem 6rem;
     position: relative;
-    row-gap: var(--padding-l);
+    row-gap: var(--padding-m);
 }
 
 .gameWrapper .titleWrapper {
@@ -22,6 +22,10 @@
 .gameWrapper .titleWrapper .version {
     color: var(--transparent-50);
     font-size: .8rem;
+}
+
+.gameWrapper .highScoreWrapper {
+    
 }
 
 .gameWrapper .header {
