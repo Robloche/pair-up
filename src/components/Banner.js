@@ -1,21 +1,18 @@
 import FocusLock from 'react-focus-lock';
 import React from 'react';
 import { SettingsContext } from '@/providers/SettingsProvider';
-import { getHighScore } from '@/helpers/score';
 import styles from './Banner.module.css';
 
 const Banner = ({ attempts, isHighScore, missed, onReset }) => {
   const {
     settings: { rowCount, columnCount },
   } = React.useContext(SettingsContext);
-  const highScore = getHighScore(rowCount, columnCount);
 
   return (
     <FocusLock aria-label='End banner' aria-modal className={styles.bannerWrapper} returnFocus role='dialog'>
       <p>
-        You found <span className={styles.number}>{(rowCount * columnCount) / 2}</span> pairs in <span className={styles.number}>{attempts}</span> attempt{attempts > 1 ? 's' : ''} and missed{' '}
-        <span className={styles.number}>{missed}</span> time
-        {missed > 1 ? 's' : ''}.
+        You found<span className={styles.number}>{(rowCount * columnCount) / 2}</span>pairs in<span className={styles.number}>{attempts}</span>attempt{attempts > 1 ? 's' : ''} and missed
+        <span className={styles.number}>{missed}</span>time{missed > 1 ? 's' : ''}.
       </p>
       {isHighScore && <p className={styles.highScore}>New High Score!</p>}
       <button className='action' onClick={onReset}>
