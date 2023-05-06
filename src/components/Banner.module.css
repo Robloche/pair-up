@@ -20,6 +20,7 @@
     font-size: 1.4rem;
     padding: var(--padding-l);
     position: absolute;
+    row-gap: var(--margin-s);
     top: 0;
     z-index: 100;
 }
