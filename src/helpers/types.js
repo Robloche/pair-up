@@ -4,6 +4,7 @@ export const GameState = Object.freeze({
   Playing: 2,
   Finished: 3,
   FinishedHighScore: 4,
+  PromptPlayerName: 5,
 });
 
 export const State = Object.freeze({

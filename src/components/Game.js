@@ -16,11 +16,12 @@ import React from 'react';
 import { SettingsContext } from '@/providers/SettingsProvider';
 import Tiles from '@/components/Tiles';
 import application from '../../package.json';
-import { checkUpdateHighScore } from '@/helpers/score';
+import { checkHighScore, saveHighScore } from '@/helpers/score';
 import { getRandomInteger } from '@/helpers/math';
 import { produce } from 'immer';
 import styles from './Game.module.css';
 import useSound from '@/hooks/use-sound';
+import PlayerNamePrompt from '@/components/PlayerNamePrompt';
 
 const Game = () => {
   const [attempts, setAttempts] = React.useState(0);
@@ -118,8 +119,9 @@ const Game = () => {
         // Check end (-2 because last pair is not persisted yet)
         if (getFoundTiles(tiles).length === tileCount - 2) {
           // Game is finished (attempts + 1 since it hasn't been updated yet)
-          if (checkUpdateHighScore(settings.rowCount, settings.columnCount, attempts + 1, missed)) {
-            setGameState(GameState.FinishedHighScore);
+          if (checkHighScore(settings.rowCount, settings.columnCount, attempts + 1, missed)) {
+            setGameState(GameState.PromptPlayerName);
+            //setGameState(GameState.FinishedHighScore);
           } else {
             setGameState(GameState.Finished);
           }
@@ -130,6 +132,18 @@ const Game = () => {
       }
     },
     [attempts, missed, playFound, playMiss, playTileTurn, settings.columnCount, settings.rowCount, tileCount, tiles]
+  );
+
+  const handlePlayerNameSet = React.useCallback(
+    (playerName) => {
+      if (gameState !== GameState.PromptPlayerName) {
+        return;
+      }
+
+      saveHighScore(settings.rowCount, settings.columnCount, attempts, missed, playerName || 'John Doe');
+      setGameState(GameState.FinishedHighScore);
+    },
+    [attempts, missed, gameState, settings.columnCount, settings.rowCount]
   );
 
   const showHint = React.useCallback(() => {
@@ -252,6 +266,7 @@ const Game = () => {
       {(gameState === GameState.Finished || gameState === GameState.FinishedHighScore) && (
         <Banner attempts={attempts} isHighScore={gameState === GameState.FinishedHighScore} missed={missed} onReset={reset} />
       )}
+      {gameState === GameState.PromptPlayerName && <PlayerNamePrompt onClosePlayerNamePrompt={handlePlayerNameSet} />}
       <div className={styles.gameWrapper}>
         <div className={styles.titleWrapper}>
           <h1 className={styles.title}>Pair Up!</h1>

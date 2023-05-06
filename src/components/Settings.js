@@ -1,10 +1,7 @@
 import { clearHighScores, getHighScoreCount } from '@/helpers/score';
-import FocusLock from 'react-focus-lock';
-import Image from 'next/image';
 import Modal from '@/components/Modal';
 import React from 'react';
 import { SettingsContext } from '@/providers/SettingsProvider';
-import closeIcon from '../assets/x.svg';
 import styles from './Settings.module.css';
 
 const Settings = ({ onCloseSettings, onSaveSettings, settings }) => {
@@ -106,15 +103,15 @@ const Settings = ({ onCloseSettings, onSaveSettings, settings }) => {
       </div>
       <div className={styles.dangerZone}>
         <div>Reset all settings</div>
-        <button className={`action ${styles.reset}`} onClick={resetOnClick}>
+        <button className={`action danger ${styles.resetBtn}`} onClick={resetOnClick}>
           Reset
         </button>
         <div>Clear high scores ({highScoreCount})</div>
-        <button className={`action ${styles.reset}`} disabled={highScoreCount === 0} onClick={clearHighScoresOnClick}>
+        <button className={`action danger ${styles.resetBtn}`} disabled={highScoreCount === 0} onClick={clearHighScoresOnClick}>
           Clear
         </button>
       </div>
-      <button className={`action ${styles.saveButton}`} disabled={(rowCount * columnCount) % 2 > 0} onClick={saveOnClick}>
+      <button className={`action dark ${styles.saveBtn}`} disabled={(rowCount * columnCount) % 2 > 0} onClick={saveOnClick}>
         Save & Close
       </button>
       {isWarningDisplayed && <div className={styles.warning}>(Changing rows or columns will start a new game.)</div>}

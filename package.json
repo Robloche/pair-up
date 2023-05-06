@@ -1,6 +1,6 @@
 {
   "name": "pair-up",
-  "version": "3.3.3",
+  "version": "3.4.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
