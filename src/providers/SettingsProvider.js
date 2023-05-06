@@ -2,7 +2,6 @@ import { loadSettings, storeSettings } from '@/helpers/settings';
 import { setRowColumnCssValues, setTileBackColorCssValue } from '@/helpers/css';
 import React from 'react';
 import Settings from '@/components/Settings';
-import useKeyUp from '@/hooks/use-key-up';
 
 export const SettingsContext = React.createContext();
 
@@ -35,8 +34,6 @@ const SettingsProvider = ({ children }) => {
   const applyCssRowColumnSettings = React.useCallback((rowCount, columnCount) => {
     setRowColumnCssValues(rowCount, columnCount);
   }, []);
-
-  useKeyUp('Escape', closeSettings);
 
   const saveSettings = React.useCallback(
     (newSettings) => {

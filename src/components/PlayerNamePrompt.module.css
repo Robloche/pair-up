@@ -1,8 +1,7 @@
-.content {
-    align-items: center;
-    display: grid;
-    grid-template-columns: 16rem auto;
-    grid-gap: var(--margin-m);
+form.prompt {
+    display: flex;
+    flex-direction: column;
+    row-gap: var(--margin-m);
 }
 
 input[type='text'].name {
@@ -10,7 +9,6 @@ input[type='text'].name {
     border: none;
     border-radius: var(--border-radius-s);
     color: #FFF;
-    margin-bottom: var(--margin-m);
     max-width: 12rem;
     padding: var(--padding-s);
 }

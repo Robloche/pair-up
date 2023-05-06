@@ -13,16 +13,22 @@ const PlayerNamePrompt = ({ onClosePlayerNamePrompt }) => {
     onClosePlayerNamePrompt(null);
   }, [onClosePlayerNamePrompt]);
 
-  const handleOnValidate = React.useCallback(() => {
-    onClosePlayerNamePrompt(name);
-  }, [name, onClosePlayerNamePrompt]);
+  const handleOnValidate = React.useCallback(
+    (event) => {
+      event.preventDefault();
+      onClosePlayerNamePrompt(name);
+    },
+    [name, onClosePlayerNamePrompt]
+  );
 
   return (
     <Modal label='Player name prompt' onClose={handleOnClose}>
-      <input className={styles.name} onChange={handleNameOnChange} placeholder='Enter your name' type='text' value={name} />
-      <button className='action dark' onClick={handleOnValidate}>
-        Validate
-      </button>
+      <form className={styles.prompt} onSubmit={handleOnValidate}>
+        <input className={styles.name} onChange={handleNameOnChange} placeholder='Enter your name' type='text' value={name} />
+        <button className='action dark' type='submit'>
+          Validate
+        </button>
+      </form>
     </Modal>
   );
 };

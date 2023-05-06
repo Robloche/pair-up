@@ -9,7 +9,7 @@
 }
 
 .highScore .playerName {
-    background-color: var(--transparent-80);
+    background-color: var(--transparent-50);
     border-radius: var(--border-radius-s);
     color: #000;
     margin-inline: var(--margin-s);
