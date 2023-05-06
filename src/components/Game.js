@@ -11,24 +11,21 @@ import { GameState, State } from '@/helpers/types';
 import { findHiddenTileIndex, getFoundTiles, getVisibleTiles, initializeTiles, setTilesAnimationDelay, shuffleArray } from '@/helpers/tiles';
 import Banner from '@/components/Banner';
 import CurrentHighScore from '@/components/CurrentHighScore';
-import Image from 'next/image';
+import Header from '@/components/Header';
 import React from 'react';
-import Score from '@/components/Score';
 import { SettingsContext } from '@/providers/SettingsProvider';
 import Tiles from '@/components/Tiles';
 import application from '../../package.json';
-import { checkUpdateHighScore, getHighScore } from '@/helpers/score';
+import { checkUpdateHighScore } from '@/helpers/score';
 import { getRandomInteger } from '@/helpers/math';
 import { produce } from 'immer';
-import restartIcon from '../assets/restart.svg';
-import settingsIcon from '../assets/settings.svg';
 import styles from './Game.module.css';
 import useSound from '@/hooks/use-sound';
 
 const Game = () => {
   const [attempts, setAttempts] = React.useState(0);
   const [gameState, setGameState] = React.useState(GameState.Shuffling);
-  const { applyCssRowColumnSettings, clearTriggerReset, openSettings, settings, triggerReset } = React.useContext(SettingsContext);
+  const { applyCssRowColumnSettings, clearTriggerReset, settings, triggerReset } = React.useContext(SettingsContext);
   const [tiles, setTiles] = React.useState(() => initializeTiles(settings.rowCount, settings.columnCount));
 
   const shuffleTimeoutId = React.useRef(null);
@@ -260,15 +257,7 @@ const Game = () => {
           <h1 className={styles.title}>Pair Up!</h1>
           <div className={styles.version}>v{application.version}</div>
         </div>
-        <div className={styles.header}>
-          <Score attempts={attempts} missed={missed} />
-          <button className={`${styles.iconBtn} ${styles.settingsBtn}`} onClick={openSettings}>
-            <Image alt='Settings icon' src={settingsIcon} />
-          </button>
-          <button className={`${styles.iconBtn} ${styles.restartBtn}`} onClick={reset}>
-            <Image alt='Restart icon' src={restartIcon} />
-          </button>
-        </div>
+        <Header attempts={attempts} missed={missed} onReset={reset} />
         <CurrentHighScore />
         <Tiles gameState={gameState} showTile={showTile} tiles={tiles} />
       </div>

@@ -1,0 +1,35 @@
+.header {
+    position: relative;
+}
+
+.iconBtn {
+    border: 0;
+    background-color: var(--transparent-10);
+    border-radius: var(--border-radius-s);
+    cursor: pointer;
+    height: var(--icon-btn-size);
+    position: absolute;
+    right: calc((var(--icon-btn-size) + 8px) * -1);
+    width: var(--icon-btn-size);
+}
+
+.settingsBtn {
+    top: calc(50% - var(--icon-btn-size) - 4px);
+}
+
+.restartBtn {
+    top: calc(50% + 4px);
+}
+
+.iconBtn img {
+    transform: scale(0.9);
+    transition: transform 200ms ease-in-out;
+}
+
+.iconBtn:hover {
+    background-color: var(--transparent-20);
+}
+
+.iconBtn:hover img {
+    transform: scale(1);
+}
