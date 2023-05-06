@@ -28,15 +28,36 @@ const Game = () => {
   const [gameState, setGameState] = React.useState(GameState.Shuffling);
   const { applyCssRowColumnSettings, clearTriggerReset, openSettings, settings, triggerReset } = React.useContext(SettingsContext);
   const [tiles, setTiles] = React.useState(() => initializeTiles(settings.rowCount, settings.columnCount));
+
   const shuffleTimeoutId = React.useRef(null);
   const turnTilesTimeoutId = React.useRef(null);
   const stopShufflingTimeoutId = React.useRef(null);
-  const isResetting = React.useRef(false);
+  const nextSolvingTimeoutId = React.useRef(null);
+  const hideTimeoutId = React.useRef(null);
+
   const { playFound, playMiss, playTileTurn } = useSound();
 
   const tileCount = settings.rowCount * settings.columnCount;
   const missed = attempts - getFoundTiles(tiles).length / 2;
   const visibleTileCount = getVisibleTiles(tiles).length;
+
+  const clearAllTimeouts = React.useCallback(() => {
+    if (shuffleTimeoutId.current) {
+      clearTimeout(shuffleTimeoutId.current);
+    }
+    if (turnTilesTimeoutId.current) {
+      clearTimeout(turnTilesTimeoutId.current);
+    }
+    if (stopShufflingTimeoutId.current) {
+      clearTimeout(stopShufflingTimeoutId.current);
+    }
+    if (hideTimeoutId.current) {
+      clearTimeout(hideTimeoutId.current);
+    }
+    if (nextSolvingTimeoutId.current) {
+      clearTimeout(nextSolvingTimeoutId.current);
+    }
+  }, []);
 
   const hideTiles = React.useCallback((hideFound = false) => {
     setTiles(
@@ -48,8 +69,14 @@ const Game = () => {
 
   React.useEffect(() => {
     if (visibleTileCount === 2) {
-      setTimeout(hideTiles, ALL_TILES_HIDE_DURATION);
+      hideTimeoutId.current = setTimeout(hideTiles, ALL_TILES_HIDE_DURATION);
     }
+
+    return () => {
+      if (hideTimeoutId.current) {
+        clearTimeout(hideTimeoutId.current);
+      }
+    };
   }, [hideTiles, visibleTileCount]);
 
   const showTile = React.useCallback(
@@ -134,7 +161,7 @@ const Game = () => {
       return;
     }
 
-    setTimeout(() => {
+    nextSolvingTimeoutId.current = setTimeout(() => {
       const i = findHiddenTileIndex(tiles, 0, null);
       const j = findHiddenTileIndex(tiles, i + 1, tiles[i].char);
       if (j === null) {
@@ -149,6 +176,12 @@ const Game = () => {
         })
       );
     }, getRandomInteger(SOLVE_INTERVAL_MIN, SOLVE_INTERVAL_MAX));
+
+    return () => {
+      if (nextSolvingTimeoutId.current) {
+        clearTimeout(nextSolvingTimeoutId.current);
+      }
+    };
   }, [gameState, tiles]);
 
   React.useEffect(() => {
@@ -167,31 +200,25 @@ const Game = () => {
   }, []);
 
   const stopShuffling = React.useCallback(() => {
-    if (shuffleTimeoutId.current) {
-      clearTimeout(shuffleTimeoutId.current);
-    }
+    clearAllTimeouts();
 
     // Reset indices after shuffle
     setTiles(produce((draft) => draft.forEach((tile, i) => (tile.index = i))));
 
     setGameState(GameState.Playing);
     setTilesAnimationDelay();
-    isResetting.current = false;
-  }, []);
+  }, [clearAllTimeouts]);
 
   const reset = React.useCallback(() => {
-    if (isResetting.current) {
-      // Prevent from starting shuffling twice in React strict mode
-      return;
-    }
-
-    isResetting.current = true;
-
     const initTiles = () => {
       applyCssRowColumnSettings(settings.rowCount, settings.columnCount);
       setTiles(initializeTiles(settings.rowCount, settings.columnCount));
       if (settings.showShuffle) {
         // Show shuffling animation
+
+        // Timeouts have to be cleared here in case of React.Strict context (useEffect() firing twice but cleanup code runs before timeouts are set)
+        clearAllTimeouts();
+
         shuffleTimeoutId.current = setTimeout(shuffleTiles, ORDERED_TILES_VISIBILITY_DURATION);
         turnTilesTimeoutId.current = setTimeout(turnTiles, VISIBLE_TILES_SHUFFLING_DURATION);
         stopShufflingTimeoutId.current = setTimeout(stopShuffling, HIDDEN_TILES_SHUFFLING_DURATION);
@@ -208,25 +235,18 @@ const Game = () => {
     setTiles([]);
     setTimeout(initTiles, 10);
     clearTriggerReset();
-  }, [applyCssRowColumnSettings, clearTriggerReset, settings.columnCount, settings.rowCount, settings.showShuffle, shuffleTiles, stopShuffling, turnTiles]);
+  }, [applyCssRowColumnSettings, clearAllTimeouts, clearTriggerReset, settings.columnCount, settings.rowCount, settings.showShuffle, shuffleTiles, stopShuffling, turnTiles]);
 
   React.useEffect(() => {
     if (triggerReset) {
+      clearAllTimeouts();
       reset();
     }
 
     return () => {
-      if (shuffleTimeoutId.current) {
-        clearTimeout(shuffleTimeoutId.current);
-      }
-      if (turnTilesTimeoutId.current) {
-        clearTimeout(turnTilesTimeoutId.current);
-      }
-      if (stopShufflingTimeoutId.current) {
-        clearTimeout(stopShufflingTimeoutId.current);
-      }
+      clearAllTimeouts();
     };
-  }, [reset, triggerReset]);
+  }, [clearAllTimeouts, reset, triggerReset]);
 
   return (
     <>
