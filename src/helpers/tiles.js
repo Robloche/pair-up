@@ -106,7 +106,6 @@ const initializeTiles = (rowCount, columnCount) => {
     '🤤',
     '😪',
     '😵',
-    '😵',
     '‍🤐',
     '🥴',
     '🤢',
