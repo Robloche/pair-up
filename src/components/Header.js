@@ -1,3 +1,4 @@
+import Button from '@/components/Button';
 import Image from 'next/image';
 import React from 'react';
 import Score from '@/components/Score';
@@ -12,12 +13,12 @@ const Header = ({ attempts, missed, onReset }) => {
   return (
     <div className={styles.header}>
       <Score attempts={attempts} missed={missed} />
-      <button className={`${styles.iconBtn} ${styles.settingsBtn}`} onClick={openSettings}>
+      <Button className={`${styles.iconBtn} ${styles.settingsBtn}`} onClick={openSettings}>
         <Image alt='Settings icon' src={settingsIcon} />
-      </button>
-      <button className={`${styles.iconBtn} ${styles.restartBtn}`} onClick={onReset}>
+      </Button>
+      <Button className={`${styles.iconBtn} ${styles.restartBtn}`} onClick={onReset}>
         <Image alt='Restart icon' src={restartIcon} />
-      </button>
+      </Button>
     </div>
   );
 };

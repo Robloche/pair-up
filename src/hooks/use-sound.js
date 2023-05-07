@@ -11,6 +11,9 @@ const useSound = () => {
   const sounds = React.useMemo(
     () =>
       Object.freeze({
+        click: new Audio('/sounds/click.m4a'),
+        finished: new Audio('/sounds/finish.m4a'),
+        finishedHighScore: new Audio('/sounds/finish-high-score.m4a'),
         found: new Audio('/sounds/found.m4a'),
         miss: new Audio('/sounds/miss.m4a'),
         move: new Audio('/sounds/keyboard-move.m4a'),
@@ -22,7 +25,7 @@ const useSound = () => {
 
   // Duration in ms
   const play = React.useCallback(
-    (soundKey, duration) => {
+    (soundKey, duration = undefined) => {
       const audio = sounds[soundKey];
       if (!settings.sound || !audio) {
         return;

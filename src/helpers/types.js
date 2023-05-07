@@ -15,6 +15,9 @@ export const TileState = Object.freeze({
 });
 
 export const Sound = Object.freeze({
+  Click: 'click',
+  Finished: 'finished',
+  FinishedHighScore: 'finishedHighScore',
   Found: 'found',
   Miss: 'miss',
   Move: 'move',

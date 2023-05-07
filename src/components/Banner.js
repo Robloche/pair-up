@@ -1,12 +1,17 @@
 import FocusLock from 'react-focus-lock';
 import React from 'react';
 import { SettingsContext } from '@/providers/SettingsProvider';
+import { Sound } from '@/helpers/types';
 import styles from './Banner.module.css';
+import useSound from '@/hooks/use-sound';
 
 const Banner = ({ attempts, isHighScore, missed, onReset }) => {
   const {
     settings: { rowCount, columnCount },
   } = React.useContext(SettingsContext);
+  const { play } = useSound();
+
+  play(isHighScore ? Sound.FinishedHighScore : Sound.Finished);
 
   return (
     <FocusLock aria-label='End banner' aria-modal className={styles.bannerWrapper} returnFocus role='dialog'>
