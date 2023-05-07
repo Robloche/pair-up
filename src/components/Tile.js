@@ -1,6 +1,6 @@
 import React from 'react';
 import { SettingsContext } from '@/providers/SettingsProvider';
-import { State } from '@/helpers/types';
+import { TileState } from '@/helpers/types';
 import styles from './Tile.module.css';
 import { getRandomInteger } from '@/helpers/math';
 import { TILE_HIDE_DURATION_MAX, TILE_HIDE_DURATION_MIN } from '@/helpers/constants';
@@ -12,7 +12,7 @@ const Tile = ({ disabled, showTile, tile, ...rest }) => {
   const tileRef = React.useRef();
 
   const handleOnClick = () => {
-    if (tile.state === State.Visible || tile.state === State.Found || disabled) {
+    if (tile.state === TileState.Visible || tile.state === TileState.Found || disabled) {
       return;
     }
 

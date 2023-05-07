@@ -7,9 +7,17 @@ export const GameState = Object.freeze({
   PromptPlayerName: 5,
 });
 
-export const State = Object.freeze({
+export const TileState = Object.freeze({
   Found: 'found',
   Hidden: 'hidden',
   Shuffling: 'shuffling',
   Visible: 'visible',
+});
+
+export const Sound = Object.freeze({
+  Found: 'found',
+  Miss: 'miss',
+  Move: 'move',
+  Shuffle: 'shuffle',
+  TileTurn: 'tileTurn',
 });

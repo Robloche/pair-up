@@ -1,33 +1,54 @@
 import React from 'react';
 import { SettingsContext } from '@/providers/SettingsProvider';
 
+const stop = (audio) => {
+  audio.currentTime = 0;
+  audio.pause();
+};
+
 const useSound = () => {
   const { settings } = React.useContext(SettingsContext);
-  const found = React.useMemo(() => new Audio('/sounds/found-full.m4a'), []);
-  const miss = React.useMemo(() => new Audio('/sounds/miss-full.m4a'), []);
-  const move = React.useMemo(() => new Audio('/sounds/keyboard-move-full.m4a'), []);
-  const tileTurn = React.useMemo(() => new Audio('/sounds/tile-turn-full.m4a'), []);
-
-  const play = React.useCallback(
-    (audio) => {
-      if (settings.sound) {
-        audio.play();
-      }
-    },
-    [settings]
+  const sounds = React.useMemo(
+    () =>
+      Object.freeze({
+        found: new Audio('/sounds/found.m4a'),
+        miss: new Audio('/sounds/miss.m4a'),
+        move: new Audio('/sounds/keyboard-move.m4a'),
+        shuffle: new Audio('/sounds/shuffle.m4a'),
+        tileTurn: new Audio('/sounds/tile-turn.m4a'),
+      }),
+    []
   );
 
-  const playFound = React.useCallback(() => play(found), [found, play]);
-  const playMiss = React.useCallback(() => play(miss), [miss, play]);
-  const playMove = React.useCallback(() => play(move), [move, play]);
-  const playTileTurn = React.useCallback(() => play(tileTurn), [play, tileTurn]);
+  // Duration in ms
+  const play = React.useCallback(
+    (soundKey, duration) => {
+      const audio = sounds[soundKey];
+      if (!settings.sound || !audio) {
+        return;
+      }
 
-  return {
-    playFound,
-    playMiss,
-    playMove,
-    playTileTurn,
-  };
+      if (!audio.paused) {
+        return;
+      }
+
+      const audioDurationInMs = audio.duration * 1000;
+
+      if (typeof duration !== 'undefined') {
+        if (duration < audioDurationInMs) {
+          // Stop audio before end
+          setTimeout(stop, duration, audio);
+        } else if (duration > audioDurationInMs) {
+          // Play multiple times
+          audio.addEventListener('ended', () => play(soundKey, duration - audioDurationInMs), { once: true });
+        }
+      }
+      audio.play();
+    },
+    [settings, sounds]
+  );
+
+  return { play };
 };
 
 export default useSound;

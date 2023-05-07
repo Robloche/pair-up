@@ -1,5 +1,5 @@
 import React from 'react';
-import { GameState } from '@/helpers/types';
+import { GameState, Sound } from '@/helpers/types';
 import useSound from '@/hooks/use-sound';
 
 const getTileLeftward = (activeElt, count = 1) => {
@@ -35,7 +35,7 @@ const getTileDownward = (activeElt, columnCount, count = 1) => {
 };
 
 const useArrowNavigation = (rowCount, columnCount, cycle, gameState) => {
-  const { playMove } = useSound();
+  const { play } = useSound();
 
   const handleOnKeydown = React.useCallback(
     (event) => {
@@ -55,7 +55,7 @@ const useArrowNavigation = (rowCount, columnCount, cycle, gameState) => {
 
       event.preventDefault();
 
-      playMove();
+      play(Sound.Move);
 
       if (code === 'ArrowUp') {
         // Up
@@ -91,7 +91,7 @@ const useArrowNavigation = (rowCount, columnCount, cycle, gameState) => {
         }
       }
     },
-    [columnCount, cycle, gameState, playMove, rowCount]
+    [columnCount, cycle, gameState, play, rowCount]
   );
 
   React.useEffect(() => {

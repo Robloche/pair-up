@@ -1,12 +1,12 @@
 import { TILE_HIDE_DURATION_MAX, TILE_HIDE_DURATION_MIN } from '@/helpers/constants';
-import { State } from '@/helpers/types';
+import { TileState } from '@/helpers/types';
 import React from 'react';
 import { getRandomInteger } from '@/helpers/math';
 
 const findHiddenTileIndex = (tiles, startIndex, searchedChar) => {
   const { length: tileCount } = tiles;
   let i = startIndex;
-  while (i < tileCount && (tiles[i].state !== State.Hidden || (searchedChar !== null && tiles[i].char !== searchedChar))) {
+  while (i < tileCount && (tiles[i].state !== TileState.Hidden || (searchedChar !== null && tiles[i].char !== searchedChar))) {
     ++i;
   }
   // Return null if all pairs have already been found
@@ -156,17 +156,17 @@ const initializeTiles = (rowCount, columnCount) => {
     char: emoji,
     key: `${emoji}-${i}`,
     discovered: false,
-    state: State.Shuffling,
+    state: TileState.Shuffling,
   }));
 };
 
-const getFoundTiles = (tiles) => getTilesByState(tiles, State.Found);
+const getFoundTiles = (tiles) => getTilesByState(tiles, TileState.Found);
 
-const getHiddenTiles = (tiles) => getTilesByState(tiles, State.Hidden);
+const getHiddenTiles = (tiles) => getTilesByState(tiles, TileState.Hidden);
 
 const getTilesByState = (tiles, state) => tiles.filter((tile) => tile.state === state);
 
-const getVisibleTiles = (tiles) => getTilesByState(tiles, State.Visible);
+const getVisibleTiles = (tiles) => getTilesByState(tiles, TileState.Visible);
 
 const setTilesAnimationDelay = () => {
   document.querySelectorAll('button[data-tile]').forEach((tileElt) => tileElt.style.setProperty('--tile-animation-delay', '0ms'));
