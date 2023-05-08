@@ -38,6 +38,11 @@
     padding: var(--padding-xs) var(--padding-s);
 }
 
+.content .noHighScores {
+    color: var(--accent-color);
+    margin-top: var(--margin-l);
+}
+
 .content .scoresWrapper {
     display: flex;
     flex-direction: column;

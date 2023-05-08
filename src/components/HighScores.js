@@ -15,6 +15,24 @@ const HighScores = ({ onCloseHighScores }) => {
   const highScores = loadHighScores() ?? {};
   const allSizes = getAllowedSizes();
 
+  const filteredHighScores = [];
+  allSizes.forEach((size) => {
+    const highScore = highScores[`${size.rows}x${size.columns}`];
+
+    // Hide empty high scores
+    if (highScore || showAll) {
+      const [player, attempts, missed] = (highScore ?? '..........:/:/').split(':');
+      filteredHighScores.push({
+        attempts,
+        columns: size.columns,
+        key: `${size.rows}x${size.columns}`,
+        missed,
+        player,
+        rows: size.rows,
+      });
+    }
+  });
+
   return (
     <Modal label='Player name prompt' onClose={onCloseHighScores}>
       <div className={styles.content}>
@@ -25,39 +43,32 @@ const HighScores = ({ onCloseHighScores }) => {
             Show all
           </label>
         </div>
-        <div className={styles.scoresWrapper}>
-          <div className={styles.header}>
-            <span title='Number of rows'>R</span>
-            <span title='Number of columns'>C</span>
-            <span className={styles.left} title='Player name'>
-              PLAYER
-            </span>
-            <span title='Number of attempts'>A</span>
-            <span title='Number of misses'>M</span>
-          </div>
-          <ul>
-            {allSizes.map((size) => {
-              const highScore = highScores[`${size.rows}x${size.columns}`];
-
-              if (!highScore && !showAll) {
-                // Hide empty high scores
-                return null;
-              }
-
-              const [player, attempts, missed] = (highScore ?? '..........:/:/').split(':');
-
-              return (
-                <li key={`${size.rows}x${size.columns}`}>
-                  <span>{size.rows}</span>
-                  <span>{size.columns}</span>
-                  <span className={styles.left}>{player}</span>
-                  <span>{attempts}</span>
-                  <span>{missed}</span>
+        {filteredHighScores.length === 0 ? (
+          <h3 className={styles.noHighScores}>No high scores yet!</h3>
+        ) : (
+          <div className={styles.scoresWrapper}>
+            <div className={styles.header}>
+              <span title='Number of rows'>R</span>
+              <span title='Number of columns'>C</span>
+              <span className={styles.left} title='Player name'>
+                PLAYER
+              </span>
+              <span title='Number of attempts'>A</span>
+              <span title='Number of misses'>M</span>
+            </div>
+            <ul>
+              {filteredHighScores.map((score) => (
+                <li key={score.key}>
+                  <span>{score.rows}</span>
+                  <span>{score.columns}</span>
+                  <span className={styles.left}>{score.player}</span>
+                  <span>{score.attempts}</span>
+                  <span>{score.missed}</span>
                 </li>
-              );
-            })}
-          </ul>
-        </div>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
     </Modal>
   );
