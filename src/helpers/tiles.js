@@ -193,7 +193,6 @@ const getAllowedSizes = () => {
     }
   }
 
-  console.log(sizes);
   sizes.sort((a, b) => {
     const aSize = a.rows * a.columns;
     const bSize = b.rows * b.columns;
@@ -203,7 +202,6 @@ const getAllowedSizes = () => {
 
     return b.columns - a.columns;
   });
-  console.log(sizes);
 
   return sizes;
 };

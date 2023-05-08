@@ -6,6 +6,7 @@
     --padding-m: 1rem;
     --padding-l: 2rem;
     --padding-xl: 3rem;
+    --top-screen-padding: 7rem;
     --margin-s: 0.5rem;
     --margin-m: 1rem;
     --margin-l: 2rem;
@@ -23,7 +24,8 @@
     --transparent-50: rgb(255 255 255 / 50%);
     --transparent-80: rgb(255 255 255 / 80%);
 
-    --tile-back-color: #666;
+    /* See default settings in SettingsProvider */
+    --tile-back-color: #90C590;
 
     --grid-rows: 4;
     --grid-columns: 4;

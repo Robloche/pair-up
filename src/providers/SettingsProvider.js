@@ -12,7 +12,7 @@ const DEFAULT_SETTINGS = Object.freeze({
   showDiscovered: false,
   showShuffle: true,
   sound: true,
-  tileBackColor: '#666666',
+  tileBackColor: '#90C590',
 });
 
 const SettingsProvider = ({ children }) => {
