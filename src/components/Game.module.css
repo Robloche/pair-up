@@ -3,7 +3,6 @@
     display: flex;
     flex-direction: column;
     min-width: 26rem;
-    padding: 0 6rem 6rem;
     position: relative;
     row-gap: var(--padding-m);
 }
