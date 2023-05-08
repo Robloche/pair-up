@@ -22,25 +22,6 @@
     width: 2rem;
 }
 
-.content input[type='checkbox'],
-.content input[type='color'] {
-    appearance: none;
-    background-color: rgb(0 0 0 / 10%);
-    border: 1px solid #000;
-    border-radius: var(--border-radius-s);
-    height: 20px;
-    width: 20px;
-}
-
-.content input[type='checkbox']:hover,
-.content input[type='color']:hover {
-    background-color: rgb(0 0 0 / 20%);
-}
-
-.content input[type='checkbox']:checked {
-    background-color: var(--accent-color);
-}
-
 .dangerZone {
     align-items: center;
     display: grid;

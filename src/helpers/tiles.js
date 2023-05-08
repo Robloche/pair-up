@@ -1,7 +1,6 @@
-import { TILE_HIDE_DURATION_MAX, TILE_HIDE_DURATION_MIN } from '@/helpers/constants';
-import { TileState } from '@/helpers/types';
+import { COLUMN_COUNT_MAX, COLUMN_COUNT_MIN, ROW_COUNT_MAX, ROW_COUNT_MIN } from '@/helpers/constants';
 import React from 'react';
-import { getRandomInteger } from '@/helpers/math';
+import { TileState } from '@/helpers/types';
 
 const findHiddenTileIndex = (tiles, startIndex, searchedChar) => {
   const { length: tileCount } = tiles;
@@ -184,4 +183,29 @@ const shuffleArray = (array) => {
   return array;
 };
 
-export { findHiddenTileIndex, getFoundTiles, getHiddenTiles, getVisibleTiles, initializeTiles, setTilesAnimationDelay, shuffleArray };
+const getAllowedSizes = () => {
+  const sizes = [];
+  for (let r = ROW_COUNT_MIN; r <= ROW_COUNT_MAX; r++) {
+    for (let c = COLUMN_COUNT_MIN; c <= COLUMN_COUNT_MAX; c++) {
+      if ((r * c) % 2 === 0) {
+        sizes.push({ columns: c, rows: r });
+      }
+    }
+  }
+
+  console.log(sizes);
+  sizes.sort((a, b) => {
+    const aSize = a.rows * a.columns;
+    const bSize = b.rows * b.columns;
+    if (aSize !== bSize) {
+      return bSize - aSize;
+    }
+
+    return b.columns - a.columns;
+  });
+  console.log(sizes);
+
+  return sizes;
+};
+
+export { findHiddenTileIndex, getAllowedSizes, getFoundTiles, getHiddenTiles, getVisibleTiles, initializeTiles, setTilesAnimationDelay, shuffleArray };

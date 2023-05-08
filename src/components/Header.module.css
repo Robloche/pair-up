@@ -9,8 +9,12 @@
     cursor: pointer;
     height: var(--icon-btn-size);
     position: absolute;
-    right: calc((var(--icon-btn-size) + 8px) * -1);
     width: var(--icon-btn-size);
+}
+
+.settingsBtn,
+.restartBtn {
+    right: calc((var(--icon-btn-size) + 8px) * -1);
 }
 
 .settingsBtn {
@@ -19,6 +23,11 @@
 
 .restartBtn {
     top: calc(50% + 4px);
+}
+
+.highScoresBtn {
+    left: calc((var(--icon-btn-size) + 8px) * -1);
+    top: calc(50% - var(--icon-btn-size) / 2);
 }
 
 .iconBtn img {

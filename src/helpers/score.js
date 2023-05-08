@@ -1,5 +1,3 @@
-import PlayerNamePrompt from '@/components/PlayerNamePrompt';
-
 const SCORES_KEY = 'high-scores';
 
 const buildKey = (rowCount, columnCount) => `${rowCount}x${columnCount}`;
@@ -64,19 +62,6 @@ const checkHighScore = (rowCount, columnCount, attempts, missed) => {
   return highScore === null || attempts < highScore.attempts || (attempts === highScore.attempts && missed < highScore.missed);
 };
 
-const checkUpdateHighScore = (rowCount, columnCount, attempts, missed) => {
-  const highScore = getHighScore(rowCount, columnCount);
-
-  if (highScore === null || attempts < highScore.attempts || (attempts === highScore.attempts && missed < highScore.missed)) {
-    PlayerNamePrompt;
-    const playerName = prompt('Please enter your name');
-    saveHighScore(rowCount, columnCount, attempts, missed, playerName || 'John Doe');
-    return true;
-  }
-
-  return false;
-};
-
 const clearHighScores = () => {
   try {
     localStorage.removeItem(SCORES_KEY);
@@ -86,4 +71,4 @@ const clearHighScores = () => {
   }
 };
 
-export { checkHighScore, checkUpdateHighScore, clearHighScores, getHighScore, getHighScoreCount, saveHighScore };
+export { checkHighScore, clearHighScores, getHighScore, getHighScoreCount, loadHighScores, saveHighScore };

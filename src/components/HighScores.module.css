@@ -1,0 +1,68 @@
+.content {
+    --grey: rgb(0 0 0 / 50%);
+
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    max-height: 50vh;
+}
+
+.content h1 {
+    letter-spacing: 0.3rem;
+}
+
+.content .filter {
+    align-items: center;
+    color: var(--grey);
+    column-gap: var(--margin-s);
+    display: flex;
+    font-size: .8rem;
+    margin-block: var(--margin-s);
+}
+
+.content .filter input[type='checkbox'] {
+    height: 14px;
+    width: 14px;
+}
+
+.content .header {
+    color: var(--grey);
+    font-size: .6rem;
+}
+
+.content .header,
+.content ul li {
+    display: grid;
+    grid-template-columns: 1.2rem 1.2rem 8rem 2rem 2rem;
+    column-gap: var(--margin-s);
+    padding: var(--padding-xs) var(--padding-s);
+}
+
+.content .scoresWrapper {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.content ul {
+    color: #FFF;
+    overflow-y: auto;
+}
+
+.content ul li:nth-child(odd) {
+    background-color: var(--accent-color);
+}
+
+.content ul li:nth-child(even) {
+    background-color: var(--accent-color-light);
+}
+
+.content .header span,
+.content ul li span {
+    text-align: right;
+}
+
+.content .header span.left,
+.content ul li span.left {
+    text-align: left;
+}

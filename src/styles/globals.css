@@ -13,7 +13,9 @@
     --border-radius-m: 0.5rem;
     --border-radius-l: 0.9rem;
 
-    --accent-color: #228b22;
+    --accent-color: #228B22;
+    --accent-color-light: rgb(34 139 34 / 80%);
+    --accent-color-extra-light: rgb(34 139 34 / 50%);
 
     --transparent-10: rgb(255 255 255 / 10%);
     --transparent-20: rgb(255 255 255 / 20%);
@@ -116,6 +118,25 @@ button.danger:disabled {
 
 button.danger:not(:disabled):hover {
     background-color: rgb(255 0 0 / 75%);
+}
+
+input[type='checkbox'],
+input[type='color'] {
+    appearance: none;
+    background-color: rgb(0 0 0 / 10%);
+    border: 1px solid #000;
+    border-radius: var(--border-radius-s);
+    height: 20px;
+    width: 20px;
+}
+
+input[type='checkbox']:hover,
+input[type='color']:hover {
+    background-color: var(--accent-color-extra-light);
+}
+
+input[type='checkbox']:checked {
+    background-color: var(--accent-color);
 }
 
 @media (width <= 750px) {

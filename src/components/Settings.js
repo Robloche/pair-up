@@ -1,3 +1,4 @@
+import { COLUMN_COUNT_MAX, COLUMN_COUNT_MIN, ROW_COUNT_MAX, ROW_COUNT_MIN } from '@/helpers/constants';
 import { clearHighScores, getHighScoreCount } from '@/helpers/score';
 import Modal from '@/components/Modal';
 import React from 'react';
@@ -93,12 +94,12 @@ const Settings = ({ onCloseSettings, onSaveSettings, settings }) => {
         <label className={styles.fullRow} htmlFor={rowId}>
           Number of rows:
         </label>
-        <input id={rowId} max={10} min={1} onChange={rowCountOnChange} type='range' value={rowCount} />
+        <input id={rowId} max={ROW_COUNT_MAX} min={ROW_COUNT_MIN} onChange={rowCountOnChange} type='range' value={rowCount} />
         <span className={styles.count}>{rowCount}</span>
         <label className={styles.fullRow} htmlFor={columnId}>
           Number of columns:
         </label>
-        <input id={columnId} max={10} min={1} onChange={columnCountOnChange} type='range' value={columnCount} />
+        <input id={columnId} max={COLUMN_COUNT_MAX} min={COLUMN_COUNT_MIN} onChange={columnCountOnChange} type='range' value={columnCount} />
         <span className={styles.count}>{columnCount}</span>
       </div>
       <div className={styles.dangerZone}>
