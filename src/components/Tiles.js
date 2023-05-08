@@ -18,7 +18,7 @@ const Tiles = ({ gameState, showTile, tiles }) => {
       <Flipper className={styles.tilesWrapper} flipKey={tiles.map((tile) => tile.key).join('')} spring='gentle'>
         {tiles.map((tile) => (
           <Flipped key={tile.key} flipId={tile.key}>
-            <Tile disabled={isDisabled} showTile={showTile} tile={tile} />
+            <Tile disabled={isDisabled} gameState={gameState} showTile={showTile} tile={tile} />
           </Flipped>
         ))}
       </Flipper>

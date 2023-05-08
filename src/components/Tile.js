@@ -1,18 +1,18 @@
+import { GameState, TileState } from '@/helpers/types';
+import { TILE_HIDE_DURATION_MAX, TILE_HIDE_DURATION_MIN } from '@/helpers/constants';
 import React from 'react';
 import { SettingsContext } from '@/providers/SettingsProvider';
-import { TileState } from '@/helpers/types';
-import styles from './Tile.module.css';
 import { getRandomInteger } from '@/helpers/math';
-import { TILE_HIDE_DURATION_MAX, TILE_HIDE_DURATION_MIN } from '@/helpers/constants';
+import styles from './Tile.module.css';
 
-const Tile = ({ disabled, showTile, tile, ...rest }) => {
+const Tile = ({ disabled, gameState, showTile, tile, ...rest }) => {
   const {
     settings: { showDiscovered, showShuffle },
   } = React.useContext(SettingsContext);
   const tileRef = React.useRef();
 
   const handleOnClick = () => {
-    if (tile.state === TileState.Visible || tile.state === TileState.Found || disabled) {
+    if (gameState !== GameState.Playing || tile.state === TileState.Visible || tile.state === TileState.Found || disabled) {
       return;
     }
 
