@@ -112,7 +112,7 @@ const Settings = ({ onCloseSettings, onSaveSettings, settings }) => {
           Clear
         </button>
       </div>
-      <button className={`action dark ${styles.saveBtn}`} disabled={(rowCount * columnCount) % 2 > 0} onClick={saveOnClick}>
+      <button className={`action dark ${styles.saveBtn}`} disabled={(rowCount * columnCount) % 2 > 0 || rowCount + columnCount === 3} onClick={saveOnClick}>
         Save & Close
       </button>
       {isWarningDisplayed && <div className={styles.warning}>(Changing rows or columns will start a new game.)</div>}
